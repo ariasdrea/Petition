@@ -1,0 +1,43 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("./login.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.input-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+input {
+    display: block;
+    margin-top: 10px;
+    height: 30px;
+    width: 200px;
+    background: url("/avatar.png"no-repeatscroll7px7px);
+    padding-left: 30px;
+}
+
+button,
+button:hover {
+    display: block;
+    opacity: 1;
+}
+
+.login-box {
+    margin-top: 200px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    height: 30%;
+}

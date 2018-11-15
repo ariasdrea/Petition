@@ -1,0 +1,121 @@
+/* NAV BAR */
+/* #nav {
+	width: 100%;
+	float: left;
+	margin: 0 0 1em 0;
+	padding: 0;
+	border-bottom: 1px solid white;
+    color: white;
+} */
+
+/* #nav ul {
+	list-style: none;
+} */
+
+/* REGISTRATION PAGE */
+body {
+    font-family: "Poiret One", cursive;
+    height: 40%;
+}
+
+/* PETITION PAGE */
+
+canvas {
+    border: 2px solid black;
+    text-align: center;
+}
+
+canvas:hover {
+    cursor: pointer;
+    background: aqua;
+}
+
+#canvas {
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    color: red;
+    font-weight: bold;
+}
+
+form {
+    text-align: center;
+}
+
+input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid black;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    outline: none;
+    color: black;
+}
+
+input[type="text"] {
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Poiret One", cursive;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+button {
+    text-align: center;
+}
+
+/* THANKS PAGE */
+.linksigners,
+.spread,
+h1 {
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thankspup {
+    /* text-align: center;
+    /* background-image: url('thankspup.jpg'); */
+    /* object-fit: fill;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.5; */
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* SIGNERS PAGE */
+
+.signer-title {
+    font-size: 30px;
+}
+
+.list {
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+    color: black;
+}
+
+ul {
+    -moz-column-count: 4;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 4;
+    -webkit-column-gap: 20px;
+    column-count: 4;
+    column-gap: 20px;
+}
+
+footer {
+    display: block;
+    vertical-align: middle;
+    height: 50%;
+}

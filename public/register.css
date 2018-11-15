@@ -1,0 +1,73 @@
+/* * {
+    font-family: "Poiret One", cursive;
+} */
+
+html {
+    height: 100%;
+}
+
+body {
+    text-align: center;
+    background-image: url("./registerpup.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+.inputregister {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    margin-right: 15px;
+    outline: none;
+    color: white;
+    width: 200px;
+    -webkit-autofill: active;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input[type="text"] {
+    letter-spacing: 1px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.7;
+    cursor: pointer;
+    height: 30px;
+    width: 80px;
+}
+
+/* NAV BAR */
+.container-in-register {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid white;
+    height: 50px;
+}
+
+#nav {
+    width: 100%;
+    float: right;
+    margin: 0 0 1em 0;
+    padding: 0;
+    color: black;
+}
+
+.navlinks {
+    font-weight: bold;
+    font-size: 25px;
+    text-decoration: none;
+}

@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="./register.css">
+
+
+    <div class="container-in-register">
+        <nav>
+            <a class = "navlinks" href="/about">About</a>
+            <a class = "navlinks" href="/login">Login</a>
+            <a class = "navlinks" href="/profile">Profile</a>
+        </nav>
+    </div>
+
+
+
+<h1>Register Here</h1>
+
+{{#if error}}
+<p class="error">Sorry, something went wrong on your end. Try again!</p>
+{{/if}}
+
+<form class="" method="POST">
+        <input class="inputregister" type="text" name="first" placeholder="first name">
+        <input class="inputregister" type="text" name="last" placeholder="last name">
+        <input class="inputregister" type="text" name="email" placeholder="email">
+        <input class="inputregister" type="password" name="pass">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    </div>
+    <button>Sign Up</button>
+</form>
+
+<h3>If you're already a member, please <a href="/login">log in</a>.</h3>
+
+<!-- <img src="adorable-animal-blur-406014.jpg" alt=""> -->

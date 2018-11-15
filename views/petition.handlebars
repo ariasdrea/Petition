@@ -1,0 +1,17 @@
+<h1>Welcome to my Petition</h1>
+
+{{#if error}}
+<p class="error-msg">Oops! Please fill all required fields in order to continue.</p>
+{{/if}}
+
+<form method="POST">
+    <input id='hidden' type="hidden" name="signature">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+    <div class="c-container">
+        <canvas id="canvas" width="280" height="100"></canvas>
+    </div>
+
+    <button>Submit</button>
+
+</form>

@@ -1,0 +1,10 @@
+<p class="signer-title">List of fellow signers</p>
+
+<hr>
+<hr>
+        {{#each signers}}
+        <ul>
+            <a href="{{ url }}">{{ first }} {{ last }}</a>, {{ age }}
+            <a href="/signers/{{ city }}">{{ city }}</a>
+        </ul>
+        {{/each}}

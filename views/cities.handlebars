@@ -1,0 +1,10 @@
+<h3>People from the same city who have also signed..</h3>
+
+<hr>
+<hr>
+
+        {{#each citysigner}}
+        <ul>
+            <a href="{{ url }}">{{ first }} {{ last }}</a>, {{ age }}
+        </ul>
+        {{/each}}

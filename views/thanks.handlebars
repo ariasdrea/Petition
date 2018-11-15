@@ -1,0 +1,35 @@
+    <h1>Thanks {{first}}, for your support!</h1>
+
+    <img src={{signature}}>
+
+
+    <p class="spread">Please spread the word out to your friends</p>
+
+
+    <div class ="linksigners">
+        <a href="/signers">Click here to see a list of all fellow supporters</a>
+    </div>
+
+    <form method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <button style="font-size: 15px;">Update Your Profile</button>
+    </form>
+
+    <!-- <img class="thankspup" src="adorable-animal-animal-photography-1562983.jpg"> -->
+
+
+
+<!-- Part 4 -->
+
+<!-- <form action="/sig/delete" method="POST">
+    <input type="hidden" name="" value="">
+    <button>Delete Your Signature</button>
+</form> -->
+
+
+<!-- app.post('/sig/delete', function(req, res){
+    db.deleteSig(req.session.userId).then().catch()
+}) -->
+
+<!-- DELETE ENTIRE ACCOUNT -->
+<!-- 3 queries and log the person out afterwards -->

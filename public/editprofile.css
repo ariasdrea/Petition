@@ -1,0 +1,62 @@
+* {
+    font-family: "Poiret One", cursive;
+}
+
+.form-div,
+form {
+    width: 50%;
+}
+
+p {
+    margin-left: 13%;
+    margin-top: 2%;
+    color: black;
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+body {
+    background-image: url("./unicornpup.jpeg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    color: white;
+}
+
+button {
+    display: block;
+    vertical-align: middle;
+    margin-top: 50px;
+    margin-left: 65%;
+    cursor: pointer;
+    height: 40px;
+    width: 150px;
+    font-weight: bolder;
+    opacity: 0.7;
+}
+
+input {
+    display: block;
+    vertical-align: middle;
+    height: 50%;
+    margin-top: 40px;
+    margin-left: 50%;
+    border-bottom: 2px solid black;
+}
+
+input[type="text"],
+input[type="url"] {
+    letter-spacing: 1px;
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    font-size: 25px;
+    opacity: 0.7;
+}
+
+.error {
+    font-size: 20px;
+    color: red;
+}
