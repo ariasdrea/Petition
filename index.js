@@ -73,6 +73,7 @@ app.post("/register", function(req, res) {
                 res.redirect("/profile");
             })
             .catch(function(err) {
+                console.log("error in REGISTER POST:", err);
                 res.render("register", {
                     layout: "main",
                     error: err
@@ -105,7 +106,7 @@ app.post("/login", function(req, res) {
                 }
             })
             .catch(function(err) {
-                console.log(err);
+                console.log("error in LOGIN POST:", err);
                 res.redirect("/login");
                 //with an error to show
             });
@@ -130,7 +131,7 @@ app.post("/profile", function(req, res) {
             res.redirect("/petition");
         })
         .catch(function(err) {
-            console.log("error in profile:", err);
+            console.log("error in PROFILE POST:", err);
             res.redirect("/profile");
         });
 });
@@ -147,7 +148,7 @@ app.get("/edit", function(req, res) {
             });
         })
         .catch(function(err) {
-            console.log("error in profile/edit:", err);
+            console.log("error in EDIT GET:", err);
         });
 });
 
@@ -155,7 +156,7 @@ app.post("/edit", function(req, res) {
     const userId = req.session.userId;
     console.log("req.session.userId in EDIT POST:", req.session.userId);
 
-    console.log("req.body in POST EDIT:", req.body);
+    console.log("req.body in EDIT POST:", req.body);
 
     let first = req.body.first;
     let last = req.body.last;
@@ -218,7 +219,7 @@ app.post("/petition", function(req, res) {
             res.redirect("/thanks");
         })
         .catch(function(err) {
-            console.log(err);
+            console.log("error in PETITION POST:", err);
             res.render("petition", {
                 layout: "main",
                 error: "error"
