@@ -46,6 +46,10 @@ app.disable("x-powered-by");
 // --------- SECURITY PROTECTION -----------
 
 //------------- REGISTER ---------------
+app.get("/", (req, res) => {
+    res.redirect("/about");
+});
+
 app.get("/about", (req, res) => {
     res.render("about");
 });
