@@ -278,12 +278,10 @@ app.get("/logout", function(req, res) {
     res.redirect("/register");
 });
 
-app.listen(8080, () => ca.rainbow("Port 8080 listening:"));
-
 // PORT TO USE WHEN YOU GO LIVE
-// app.listen(process.env.PORT || 8080, function() {
-//     ca.rainbow("Listening:");
-// });
+app.listen(process.env.PORT || 8080, function() {
+    ca.rainbow("Listening:");
+});
 
 // app.post("/signature/delete", function(req, res) {
 //     db.deleteSig(req.session.userId).then(function(req, res) {

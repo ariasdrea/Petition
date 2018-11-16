@@ -1,10 +1,12 @@
 const spicedPg = require("spiced-pg");
-const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition"); //DATABASE URL ON LOCAL MACHINE
+// const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition"); //DATABASE URL ON LOCAL MACHINE
 
 // DATABASE URL FOR HEROKU
-// const db = spicedPg(
-//     process.env.DATABASE_URL ||
-//     "postgres:postgres:postgres@localhost:5432/petition");
+const db = spicedPg(
+    process.env.DATABASE_URL ||
+        "postgres:postgres:postgres@localhost:5432/petition"
+);
+
 const bcrypt = require("./bcrypt");
 
 exports.signatures = (signature, user_id) => {
