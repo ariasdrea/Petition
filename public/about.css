@@ -1,5 +1,5 @@
 * {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
     letter-spacing: 1px;
 }
 
@@ -24,13 +24,11 @@ body {
 }
 
 .about-container {
-    /* display: none; */
     text-align: center;
     width: 50%;
     height: 60%;
     transition: 3s ease;
     background-color: rgba(0, 0, 0, 0.6);
-    /* z-index: 1; */
     margin: auto;
     margin-top: 20px;
     padding: 20px;
