@@ -1,27 +1,26 @@
-    <h1>Thanks {{first}}, for your support!</h1>
+<link rel="stylesheet" href="./thanks.css">
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+
+
+<div id="thanks-container">
+
+    <h1>Thanks, {{first}}, for your support!</h1>
 
     <img src={{signature}}>
 
+    <p class="spread">Please spread word about our movement to your friends!</p>
+    <i><a class="link-thanks" href="/signers">Click here to see a list of all fellow supporters</a></i>
 
-    <p class="spread">Please spread the word out to your friends</p>
+    <div id="button-container">
+        <form method="POST">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <button id="button-thanks" style="font-size: 20px;">Update Your Profile</button>
+        </form>
 
-
-    <div class ="linksigners">
-        <a href="/signers">Click here to see a list of all fellow supporters</a>
+        <form action = "/signature/delete" method="POST">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <button id="button-thanks" style="font-size: 20px;">Redo Your Signature</button>
+        </form>
     </div>
 
-    <form method="POST">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button style="font-size: 15px;">Update Your Profile</button>
-    </form>
-
-
- <!-- action="/petition/delete"  -->
-<form  action = "/signature/delete" method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button >Redo Your Signature</button>
-</form>
-
-
-<!-- DELETE ENTIRE ACCOUNT -->
-<!-- 3 queries and log the person out afterwards -->
+</div>

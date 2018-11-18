@@ -1,0 +1,11 @@
+body {
+    text-align: center;
+    background-image: url("./images/thanks.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    transition: 3s ease all;
+    transform: translateY(40px);
+    overflow: hidden;
+}

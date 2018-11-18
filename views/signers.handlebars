@@ -1,10 +1,18 @@
-<p class="signer-title">List of fellow signers</p>
+<link rel="stylesheet" href="./signers.css">
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
 
-<hr>
-<hr>
+
+<div id="signers-list">
+    <p class="signer-title">List of fellow signers</p>
+
         {{#each signers}}
         <ul>
-            <a href="{{ url }}">{{ first }} {{ last }}</a>, {{ age }}
-            <a href="/signers/{{ city }}">{{ city }}</a>
+            <a id="signer-link" href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> | {{ age }},
+            <a id="signer-link" href="/signers/{{ city }}">{{ city }}</a>
         </ul>
         {{/each}}
+
+        <div id="signer-container">
+            <a href="/thanks"><button id="signer-button" style="font-size: 18px;"> Back to Signature</button></a>
+        </div>
+</div>

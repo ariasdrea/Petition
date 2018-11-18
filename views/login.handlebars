@@ -6,23 +6,16 @@
 {{/if}}
 
 <div class="login-box">
+    <form method="POST">
+        <p>Please Log In</p>
 
-<form method="POST">
-    <p>Please Log In</p>
-
-    <div class="input-container">
-         <i class="fa fa-envelope icon"></i>
-        <input class="input-field" type="text" name="email" value="">
-    </div>
-
-    <div class="input-container">
-         <i class="fa fa-key icon"></i>
-        <input class="input-field" type="password" name="pass" value="">
-    </div>
-
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-    <button style ="font-size: 18px;">Log In</button>
-</form>
-
+        <div class="input-container">
+            <input class="input-field" type="text" name="email" placeholder="email">
+            <input class="input-field" type="password" name="pass" placeholder="password">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        </div>
+        <div class="login-button">
+            <button style ="font-size: 18px;">Log In</button>
+        </div>
+    </form>
 </div>

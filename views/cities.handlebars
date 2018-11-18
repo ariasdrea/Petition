@@ -1,10 +1,14 @@
-<h3>People from the same city who have also signed..</h3>
+<link rel="stylesheet" href="./cities.css">
 
-<hr>
-<hr>
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
 
-        {{#each citysigner}}
+    <h3>People from the same city who have also signed..</h3>
+
+    <hr>
+    <hr>
+
+    {{#each citysigner}}
         <ul>
-            <a href="{{ url }}">{{ first }} {{ last }}</a>, {{ age }}
+            <a href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> | {{ age }}
         </ul>
-        {{/each}}
+    {{/each}}

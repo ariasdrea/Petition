@@ -4,58 +4,59 @@
 }
 
 body {
-    background-image: url("./login.jpeg");
+    background-image: url("./images/pupkeyboard.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
 }
 
+.login-box {
+    margin-top: 600px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    padding: 20px;
+    margin-left: 329px;
+    /* margin-right: 40px;  */
+    width: 51%;
+    height: 20%;
+}
+
 .input-container {
-    display: flex;
+    text-align: center;
     width: 100%;
     margin-bottom: 15px;
 }
 
-input {
-    display: block;
+.input-field {
     margin-top: 10px;
     height: 30px;
     width: 200px;
-
-    /* background: url("/avatar.png"no-repeatscroll7px7px);
-    padding-left: 30px; */
+    margin-right: 20px;
 }
 
-button,
-button:hover {
-    display: block;
-    opacity: 0.8;
+.login-button {
+    text-align: center;
+}
+
+button {
     cursor: pointer;
 }
 
 button:hover {
+    opacity: 0.8;
     background-color: black;
     color: white;
-}
-
-.login-box {
-    margin-top: 300px;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
-    padding: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-    height: 30%;
+    font-weight: bold;
 }
 
 p {
     color: white;
+    text-align: center;
     font-size: 25px;
     font-weight: bold;
-    height: 20px;
-    margin-bottom: 15px;
+    height: 15px;
+    margin-bottom: 20px;
     margin-top: 5px;
 }
 
@@ -63,9 +64,5 @@ input[type="text"],
 input[type="password"] {
     font-size: 20px;
     font-weight: bold;
-}
-
-input[type="text"] {
-    background: url("./avatar.png"no-repeatscroll7px7px);
-    padding-left: 30px;
+    /* text-align: center; */
 }

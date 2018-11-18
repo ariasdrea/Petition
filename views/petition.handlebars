@@ -1,18 +1,52 @@
-<h1>Welcome to my Petition</h1>
-<h3>Please sign below to provide your support</h3>
+<link rel="stylesheet" href="./petition.css">
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+
 
 {{#if error}}
 <p class="error-msg">Oops! Please fill all required fields in order to continue.</p>
 {{/if}}
 
 <form method="POST">
+    <p id="petition-title">Please sign below to provide your support</p>
     <input id='hidden' type="hidden" name="signature">
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
     <div class="c-container">
-        <canvas id="canvas" width="280" height="100"></canvas>
+        <canvas id="canvas" width="400" height="100"></canvas>
     </div>
 
-    <button>Submit</button>
+    <button id="petition-button" style="font-size: 20px;">Submit</button>
 
 </form>
+
+<div id="petition-container">
+
+<div class="facts-left">
+    <p id="petition-left">
+        Studies have shown that pet ownership, or just being in the presence of a companion animal, is associated with health benefits, including improvements in mental, social, and physiologic health status.
+        <br>
+        <strong><a href="https://www.ncbi.nlm.nih.gov/pubmed/19185195" target="_blank">
+            <i class="citation">Friedmann, E.</a> (2009)</i>.</strong>
+    </p>
+
+    <p id="petition-left">
+        Pets and therapy animals can help alleviate stress, anxiety, depression, and feelings of loneliness and social isolation. Pets are also facilitators of getting to know people, friendship formation, and social support networks.
+        <br>
+        <strong> <i class="citation">Retrieved from <a href="https://adaa.org/learn-from-us/from-the-experts/blog-posts/consumer/alleviating-anxiety-stress-and-depression-pet" target="_blank">www.adaa.org</i></a></strong>
+    </p>
+</div>
+
+<div class="facts-right">
+    <p id="petition-right">
+        Participants reported significant reductions in stress as well as increased happiness and energy immediately following the dog therapy session, compared to those who did not spend time at a session.
+        <br>
+        <strong> <i class="citation"> <a href="https://news.ubc.ca/2018/03/12/sit-stay-heal-study-finds-therapy-dogs-help-stressed-university-students/" target="_blank">
+        University of British Columbia.</a> 12 March 2018.</i> </strong>
+    </p>
+    <p id="petition-right">
+        Playing with or petting an animal can increase levels of the stress-reducing hormone oxytocin and decrease production of the stress hormone cortisol. <br>
+        <strong><i>Retrieved from <a href="http://animalsmart.org/species/dogs/dogs-help-reduce-stress" target="_blank"> http://www.animalsmart.org</i></a></strong>
+    </p>
+</div>
+
+</div>

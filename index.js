@@ -121,8 +121,6 @@ app.post("/login", function(req, res) {
 //------------- USER PROFILE ---------------
 app.get("/profile", function(req, res) {
     res.render("profile");
-    // layout: "main"
-    // });
 });
 
 app.post("/profile", function(req, res) {
@@ -266,7 +264,6 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", (req, res) => {
     db.signers()
         .then(function(result) {
-            // console.log("result in db.signers:", result);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
@@ -295,7 +292,6 @@ app.get("/logout", function(req, res) {
     res.redirect("/register");
 });
 
-// PORT TO USE WHEN YOU GO LIVE
 app.listen(process.env.PORT || 8080, function() {
     ca.rainbow("Listening:");
 });
