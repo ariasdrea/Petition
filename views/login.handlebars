@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="./login.css">
-
+<link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
 
 {{#if error}}
 <p>Error</p>
@@ -8,6 +8,8 @@
 <div class="login-box">
 
 <form method="POST">
+    <p>Please Log In</p>
+
     <div class="input-container">
          <i class="fa fa-envelope icon"></i>
         <input class="input-field" type="text" name="email" value="">
@@ -20,7 +22,7 @@
 
     <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-    <button>Log In</button>
+    <button style ="font-size: 18px;">Log In</button>
 </form>
 
 </div>

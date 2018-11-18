@@ -1,13 +1,22 @@
+<link rel="stylesheet" href="./profile.css">
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
 
 
-
-<h3>Now please tell us just a little bit more about yourself</h3>
-
-<form method="POST">
-    <input type="text" name="age" placeholder="age">
-    <input type="text" name="city" placeholder="city">
-    <input type="url" name="url">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-
-    <button>Continue to Petition</button>
-</form>
+<div id="yourself">
+    <form method="POST">
+        <p>Hello hooman, please tell me about yourself</p>
+        <div>
+            <input class="input-profile" type="text" name="age" placeholder="age">
+        </div>
+        <div>
+            <input class="input-profile" type="text" name="city" placeholder="city">
+        </div>
+        <div>
+            <input class="input-profile" type="url" name="url"  placeholder="http://">
+        </div>
+        <input class="input-profile" type="hidden" name="_csrf" value="{{csrfToken}}">
+        <div>
+            <button style="font-size: 18px; color: black;">Continue to Petition</button>
+        </div>
+    </form>
+</div>

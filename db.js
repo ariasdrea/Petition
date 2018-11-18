@@ -96,6 +96,7 @@ exports.profile = function(age, city, url, user_id) {
     );
 };
 
+//SHOW USER INFO IN EDIT PROFILE
 exports.populateInfo = function(id) {
     return db.query(
         `SELECT u.first, u.last, u.email, up.age, up.city, up.url
@@ -136,8 +137,20 @@ exports.updateUserWithoutPass = function(user_id, first, last, email) {
         [user_id, first, last, email]
     );
 };
+exports.deleteSig = function(id) {
+    return db.query(
+        `
+        DELETE FROM signatures
+        WHERE user_id = $1`,
+        [id]
+    );
+};
 
-// `INSERT INTO actor (name, age, oscars)
-// VALUES ($1, $2, $3)
-// ON CONFLICT (name)
-// DO UPDATE SET`
+// exports.checkSignature = function(id) {
+//     return db.query(
+//         `
+//         SELECT * FROM signatures
+//         WHERE user_id = $1`,
+//         [id]
+//     );
+// };

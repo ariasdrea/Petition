@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 app.disable("x-powered-by");
 // --------- SECURITY PROTECTION -----------
 
-//------------- REGISTER ---------------
+//------------- HOMEPAGE ---------------
 app.get("/", (req, res) => {
     res.redirect("/about");
 });
@@ -58,6 +58,7 @@ app.post("/about", (req, res) => {
     res.redirect("/register");
 });
 
+//------------- REGISTER ---------------
 app.get("/register", function(req, res) {
     res.render("register", {
         layout: "main"
@@ -119,9 +120,9 @@ app.post("/login", function(req, res) {
 
 //------------- USER PROFILE ---------------
 app.get("/profile", function(req, res) {
-    res.render("profile", {
-        layout: "main"
-    });
+    res.render("profile");
+    // layout: "main"
+    // });
 });
 
 app.post("/profile", function(req, res) {
@@ -141,7 +142,6 @@ app.post("/profile", function(req, res) {
 });
 
 // EDIT PROFILE & POPULATE FIELDS
-
 app.get("/edit", function(req, res) {
     const userId = req.session.userId;
     db.populateInfo(userId)
@@ -197,10 +197,8 @@ app.post("/edit", function(req, res) {
             });
     }
 });
-//
-// app.post("signature/delete", function(req, res) {});
 
-//------------- PETITION ---------------
+//------------- PETITION / SIGNATURE ---------------
 app.get("/petition", function(req, res) {
     if (!req.session.sigId) {
         console.log("req.session.sigId in GET PETITION:", req.session.sigId);
@@ -211,9 +209,6 @@ app.get("/petition", function(req, res) {
         res.redirect("/thanks");
     }
 });
-
-//go to signature page and do a query, has user id signed table? if not , render petition page or redirect.
-//
 
 app.post("/petition", function(req, res) {
     db.signatures(req.body.signature, req.session.userId)
@@ -228,6 +223,23 @@ app.post("/petition", function(req, res) {
                 layout: "main",
                 error: "error"
             });
+        });
+});
+
+//------------- DELETE SIGNATURE ---------------
+
+app.post("/signature/delete", function(req, res) {
+    console.log("req.session.userId in DELETE POST:", req.session.userId);
+
+    return db
+        .deleteSig(req.session.userId)
+        .then(function() {
+            req.session.sigId = null;
+            res.redirect("/petition");
+        })
+        .catch(function(err) {
+            console.log("error in DELETE SIG POST:", err);
+            res.redirect("/thanks");
         });
 });
 
@@ -287,10 +299,3 @@ app.get("/logout", function(req, res) {
 app.listen(process.env.PORT || 8080, function() {
     ca.rainbow("Listening:");
 });
-
-// app.post("/signature/delete", function(req, res) {
-//     db.deleteSig(req.session.userId).then(function(req, res) {
-//         req.sesion.sigId = null;
-//         res.redirect("/petition");
-//     });
-// });

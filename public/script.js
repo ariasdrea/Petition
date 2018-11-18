@@ -40,3 +40,26 @@
 
     canvas.on("mouseout", () => (isDrawing = false));
 })();
+
+
+
+// EVENT HANDLERS
+
+// make info container appear after dog translates
+$(document).ready(function() {
+    var info = $('.about-container');
+
+    setTimeout(function(){
+        info.fadeIn();
+    }, 2000);
+})();
+
+// show password feature in LOGIN
+// function myFunction() {
+//     var x = document.getElementById("myInput");
+//     if (x.type === "password") {
+//         x.type = "text";
+//     } else {
+//         x.type = "password";
+//     }
+// }

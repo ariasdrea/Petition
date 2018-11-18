@@ -17,7 +17,7 @@ p {
 }
 
 body {
-    background-image: url("./unicornpup.jpeg");
+    background-image: url("./images/unicornpup.jpeg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -47,7 +47,8 @@ input {
 }
 
 input[type="text"],
-input[type="url"] {
+input[type="url"],
+input[type="password"] {
     letter-spacing: 1px;
     text-align: center;
     color: black;

@@ -1,14 +1,19 @@
-/* * {
-    font-family: "Poiret One", cursive;
-} */
+* {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 1px;
+}
 
 html {
     height: 100%;
 }
 
+h1 {
+    margin-bottom: 25px;
+}
+
 body {
     text-align: center;
-    background-image: url("./registerpup.jpg");
+    background-image: url("./images/registerpup.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -22,17 +27,15 @@ a {
 
 .inputregister {
     background: transparent;
-    border: none;
     border-bottom: 2px solid white;
-    margin-right: 15px;
     outline: none;
     color: white;
     width: 200px;
     -webkit-autofill: active;
-    transition: background-color 5000s ease-in-out 0s;
+    transition: background-color:white 5000s ease-in-out 0s;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
     letter-spacing: 1px;
     text-align: center;
     color: white;
@@ -40,18 +43,29 @@ input[type="text"] {
     font-size: 20px;
 }
 
+
+input[placeholder] {
+    font-family: 'Cormorant Garamond', serif;
+}
+
 button {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    opacity: 0.7;
     cursor: pointer;
-    height: 30px;
-    width: 80px;
+    height: 25px;
+    width: 90px;
+    margin-top: 20px;
 }
 
+button:hover {
+    opacity: 0.9;
+    background-color: beige;
+}
+
+
 /* NAV BAR */
-.container-in-register {
+/* .container-in-register {
     display: flex;
     justify-content: space-around;
     border-bottom: 2px solid white;
@@ -70,4 +84,19 @@ button {
     font-weight: bold;
     font-size: 25px;
     text-decoration: none;
+} */
+
+.footer {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.error {
+    color: beige;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.link:hover {
+    color: beige;
 }

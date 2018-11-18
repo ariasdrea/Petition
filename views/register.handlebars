@@ -1,15 +1,13 @@
 <link rel="stylesheet" href="./register.css">
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
 
-
-    <div class="container-in-register">
+    <!-- <div class="container-in-register">
         <nav>
             <a class = "navlinks" href="/about">About</a>
-            <a class = "navlinks" href="/login">Login</a>
             <a class = "navlinks" href="/profile">Profile</a>
         </nav>
     </div>
-
-
+ -->
 
 <h1>Register Here</h1>
 
@@ -21,12 +19,14 @@
         <input class="inputregister" type="text" name="first" placeholder="first name">
         <input class="inputregister" type="text" name="last" placeholder="last name">
         <input class="inputregister" type="text" name="email" placeholder="email">
-        <input class="inputregister" type="password" name="pass">
+        <input class="inputregister" type="password" name="pass" placeholder="password">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
     </div>
-    <button>Sign Up</button>
+    <button style="font-size: 18px;" >Sign Up</button>
 </form>
 
-<h3>If you're already a member, please <a href="/login">log in</a>.</h3>
+<h2>If you're already a member, please <a class="link" href="/login">log in</a>.</h2>
 
-<!-- <img src="adorable-animal-blur-406014.jpg" alt=""> -->
+<div class="footer">
+    <footer>&copy; Designed by Bork Inc.</footer>
+</div>

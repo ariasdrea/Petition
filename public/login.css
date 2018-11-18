@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: "Poiret One", cursive;
 }
 
 body {
@@ -21,23 +22,50 @@ input {
     margin-top: 10px;
     height: 30px;
     width: 200px;
-    background: url("/avatar.png"no-repeatscroll7px7px);
-    padding-left: 30px;
+
+    /* background: url("/avatar.png"no-repeatscroll7px7px);
+    padding-left: 30px; */
 }
 
 button,
 button:hover {
     display: block;
-    opacity: 1;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: black;
+    color: white;
 }
 
 .login-box {
-    margin-top: 200px;
+    margin-top: 300px;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
     padding: 20px;
     margin-left: auto;
     margin-right: auto;
-    width: 30%;
+    width: 20%;
     height: 30%;
+}
+
+p {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    height: 20px;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    background: url("./avatar.png"no-repeatscroll7px7px);
+    padding-left: 30px;
 }

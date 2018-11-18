@@ -1,0 +1,73 @@
+* {
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 1px;
+    color: white;
+}
+
+body {
+    background-image: url("./pupinchair.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    /* margin-left: 20px; */
+}
+
+#yourself {
+    display: flex;
+    text-align: center;
+    width: 40%;
+    height: 40%;
+    transition: 2s ease;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+}
+
+.input-profile {
+    display: inline-block;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid white;
+    margin: 10px;
+    outline: none;
+    color: white;
+    text-align: center;
+    width: 250px;
+}
+
+input[type="text"], input[type="url"] {
+    letter-spacing: 1px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+input[placeholder] {
+    font-family: 'Cormorant Garamond', serif;
+}
+
+
+p {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+input, button {
+    border-bottom: 2px solid white;
+}
+
+button {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.error {
+    font-size: 20px;
+    color: red;
+}
