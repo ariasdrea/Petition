@@ -6,7 +6,7 @@
     <h1 class="signer-title">List of fellow signers</h1>
     <hr>
         {{#each signers}}
-        <ul>
+        <ul id="signer-link">
             <a id="signer-link" href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> | {{ age }},
 
             <a id="signer-link" href="/signers/{{ city }}">{{ city }}</a>
