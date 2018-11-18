@@ -6,7 +6,6 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const bcrypt = require("./bcrypt");
 
 // ------------ DO NOT TOUCH ------------
 app.engine("handlebars", hb());
@@ -156,10 +155,6 @@ app.get("/edit", function(req, res) {
 
 app.post("/edit", function(req, res) {
     const userId = req.session.userId;
-    console.log("req.session.userId in EDIT POST:", req.session.userId);
-
-    console.log("req.body in EDIT POST:", req.body);
-
     let first = req.body.first;
     let last = req.body.last;
     let email = req.body.email;
@@ -275,10 +270,13 @@ app.get("/signers", (req, res) => {
 });
 
 app.get("/signers/:city", function(req, res) {
+    console.log("req.params:", req.params);
     db.cities(req.params.city).then(function(result) {
+        console.log("result in signer/city:", result);
         res.render("cities", {
             layout: "main",
-            citysigner: result.rows
+            citysigner: result.rows,
+            city: req.params.city
         }).catch(function(err) {
             console.log("err in db.cities:", err);
             res.redirect("/signers");

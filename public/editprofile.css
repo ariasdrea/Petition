@@ -1,19 +1,5 @@
 * {
-    font-family: "Poiret One", cursive;
-}
-
-.form-div,
-form {
-    width: 50%;
-}
-
-p {
-    margin-left: 13%;
-    margin-top: 2%;
-    color: black;
-    font-size: 40px;
-    font-weight: bold;
-    text-decoration: underline;
+    font-family: "Cormorant Garamond", serif;
 }
 
 body {
@@ -25,24 +11,27 @@ body {
     color: white;
 }
 
-button {
-    display: block;
-    vertical-align: middle;
-    margin-top: 50px;
-    margin-left: 65%;
-    cursor: pointer;
-    height: 40px;
-    width: 150px;
-    font-weight: bolder;
-    opacity: 0.7;
+#form-div {
+    width: 40%;
+}
+
+#edit-title {
+    color: black;
+    font-size: 40px;
+    text-decoration: underline;
+    margin-left: 50px;
+    margin-top: 100px;
+}
+
+#edit-link {
+    text-decoration: none;
 }
 
 input {
     display: block;
-    vertical-align: middle;
     height: 50%;
     margin-top: 40px;
-    margin-left: 50%;
+    margin-left: 35%;
     border-bottom: 2px solid black;
 }
 
@@ -53,8 +42,29 @@ input[type="password"] {
     text-align: center;
     color: black;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 22px;
     opacity: 0.7;
+    font-family: "Cormorant Garamond", serif;
+}
+#button-div {
+    padding: 10px;
+    margin-left: 40%;
+}
+
+button {
+    display: block;
+    cursor: pointer;
+    height: 40px;
+    width: 150px;
+    font-weight: bolder;
+    opacity: 0.7;
+}
+
+button:hover {
+    background-color: #ffced1;
+    font-size: 20px;
+    cursor: pointer;
+    border: 2px solid #ccb49a;
 }
 
 .error {

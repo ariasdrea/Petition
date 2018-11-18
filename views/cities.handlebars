@@ -1,14 +1,18 @@
-<link rel="stylesheet" href="./cities.css">
-
+<link rel="stylesheet" href="/cities.css">
 <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
 
-    <h3>People from the same city who have also signed..</h3>
 
-    <hr>
-    <hr>
+<div id="cities-container">
 
-    {{#each citysigner}}
-        <ul>
-            <a href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> | {{ age }}
-        </ul>
-    {{/each}}
+    <p id="city-title">Supporters from {{ city }}</p>
+    <hr>
+        {{#each citysigner}}
+        <p>
+            <a id="city-info" href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> | {{ age }}
+        </p>
+        {{/each}}
+
+        <a href="/signers"><button id="supp-button" style="font-size: 18px;">Go to Supporter List</button></a>
+        <a href="/logout"><button id="supp-button" style="font-size: 18px;">Logout</button></a>
+
+</div>

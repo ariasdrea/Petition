@@ -1,5 +1,5 @@
 * {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: "Cormorant Garamond", serif;
 }
 
 /* REGISTRATION PAGE */
@@ -17,27 +17,29 @@
 #petition-left {
     font-size: 20px;
     width: 55%;
-    margin-left: 50px;
-    margin-top: 20px;
+    padding: 25px;
 }
 
 #petition-right {
     font-size: 20px;
     width: 55%;
     margin-left: 150px;
+    padding: 25px;
 }
 
 #petition-button {
     cursor: pointer;
+    border: 3px solid black;
 }
 
 #petition-button:hover {
     opacity: 0.9;
     background-color: beige;
+    font-weight: bold;
 }
 
 #petition-container {
-    display:flex;
+    display: flex;
     height: 100px;
 }
 
@@ -127,18 +129,21 @@ img {
     margin-top: 160px;
 }
 
-.spread, .link-thanks {
+.spread,
+.link-thanks {
     font-size: 25px;
     text-decoration: none;
-
 }
 
 .link-thanks {
     color: black;
+    font-style: italic;
+    font-weight: bold;
 }
 
 .link-thanks:hover {
-    text-decoration: none; color:blue;
+    text-decoration: none;
+    color: blue;
 }
 
 #button-container {
@@ -148,26 +153,34 @@ img {
     margin-top: 15px;
 }
 
-#button-thanks {
+#button-thanks,
+#logout-thanks {
     display: inline-block;
     margin-left: 20px;
     cursor: pointer;
     box-shadow: 20px 10px 50px grey;
 }
 
-#button-thanks:hover {
+#button-thanks:hover,
+#logout-thanks:hover {
     opacity: 0.9;
     background-color: black;
     color: white;
     font-weight: bold;
 }
 
+#logout-thanks {
+    margin-top: 20px;
+}
+
+/* EDIT PAGE */
+
 /* SIGNERS PAGE */
 
 #signers-list {
     float: right;
     height: 100%;
-    margin-right: 100px;
+    margin-right: 150px;
 }
 
 #signer-link {
@@ -182,14 +195,11 @@ img {
     font-size: 24px;
 }
 
-
 .signer-title {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: bold;
-    box-shadow: inset 0 -0.075em #FFCED1,
-    inset 0 -0.1em red,
-    inset 0 -0.15em #FFCED1,
-    inset 0 -0.175em red;
+    box-shadow: inset 0 -0.075em #ffced1, inset 0 -0.1em red,
+        inset 0 -0.15em #ffced1, inset 0 -0.175em red;
 }
 
 #signer-container {
@@ -205,16 +215,6 @@ img {
     opacity: 0.7;
     border: 2px solid red;
 }
-
-/* .list {
-    font-weight: bold;
-    text-align: center;
-    font-size: 20px;
-    color: black;
-} */
-
-/* CITIES PAGE */
-
 
 /* FOOTER */
 footer {

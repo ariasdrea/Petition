@@ -9,7 +9,7 @@
     <img src={{signature}}>
 
     <p class="spread">Please spread word about our movement to your friends!</p>
-    <i><a class="link-thanks" href="/signers">Click here to see a list of all fellow supporters</a></i>
+    <a class="link-thanks" href="/signers">Click here to see a list of all fellow supporters</a>
 
     <div id="button-container">
         <form method="POST">
@@ -21,6 +21,9 @@
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <button id="button-thanks" style="font-size: 20px;">Redo Your Signature</button>
         </form>
+
     </div>
+
+        <a href="/logout"><button id="logout-thanks" style="font-size: 20px;">Logout</button></a>
 
 </div>

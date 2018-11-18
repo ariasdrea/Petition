@@ -2,29 +2,33 @@
 <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
 
 
-<p>Edit Your Profile</p>
 
 {{#if error}}
 <p class="error">Sorry, something went wrong on your end. Try again!</p>
 {{/if}}
 
 
-<div class="form-div">
+<div id="form-div">
 
+    <form method="POST">
+        <p id="edit-title">Edit Your Profile</p>
+            <input type="text" name="first" placeholder="first name" value={{# profile}}{{first}}{{/profile}}>
+            <input type="text" name="last" placeholder="last name" value={{# profile}}{{last}}{{/profile}}>
+            <input type="text" name="email" placeholder="email" value={{# profile}}{{email}}{{/profile}}>
+            <input type="password" name="password" placeholder="password">
+            <input type="text" name="age" placeholder="age" value={{# profile}}{{age}}{{/profile}}>
+            <input type="text" name="city" placeholder="city" value={{# profile}}{{city}}{{/profile}}>
+            <input type="url" name="homepage" placeholder="Include https://" value={{# profile}}{{url}}{{/profile}}>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
-<form method="POST">
-    <input type="text" name="first" placeholder="first name" value={{# profile}}{{first}}{{/profile}}>
-    <input type="text" name="last" placeholder="last name" value={{# profile}}{{last}}{{/profile}}>
-    <input type="text" name="email" placeholder="email" value={{# profile}}{{email}}{{/profile}}>
-    <input type="password" name="password" placeholder="password">
-    <input type="text" name="age" placeholder="age" value={{# profile}}{{age}}{{/profile}}>
-    <input type="text" name="city" placeholder="city" value={{# profile}}{{city}}{{/profile}}>
-    <input type="url" name="homepage" placeholder="Include https://" value={{# profile}}{{url}}{{/profile}}>
-    <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    <button style="font-size: 18px;">Update Profile</button>
+            <div id="button-div">
+                <button style="font-size: 18px;">Update Profile</button>
+            </div>
 
-    <a href="/petition"><button style="font-size: 18px;">Head Back to Your Signature</button></a>
+            <div id="button-div">
+                <a id="edit-link" href="/petition"><button style="font-size: 18px;">Go to Signature</button></a>
+            </div>
 
-</form>
+    </form>
 
 </div>

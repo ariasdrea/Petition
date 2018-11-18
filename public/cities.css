@@ -1,3 +1,7 @@
+* {
+    font-family: "Cormorant Garamond", serif;
+}
+
 body {
     text-align: center;
     background-image: url("./images/city.jpg");
@@ -5,8 +9,43 @@ body {
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
+    color: white;
 }
 
-* {
-    background-color: red;
+#cities-container {
+    width: 30%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: auto;
+    margin-top: 40px;
+    padding: 20px;
+    overflow: hidden;
+    transition: 1s ease;
+    border-radius: 10%;
+}
+
+#city-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#city-info {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#city-info:hover {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+#supp-button {
+    margin-top: 20px;
+}
+
+#supp-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
 }
