@@ -2,11 +2,6 @@
     font-family: "Cormorant Garamond", serif;
 }
 
-/* REGISTRATION PAGE */
-/* body {
-    height: 40%;
-} */
-
 /* PETITION PAGE */
 #petition-title {
     font-size: 30px;
@@ -111,12 +106,6 @@ img {
 }
 
 .thankspup {
-    /* text-align: center;
-    /* background-image: url('thankspup.jpg'); */
-    /* object-fit: fill;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    opacity: 0.5; */
     width: 200px;
     height: 200px;
     display: block;
@@ -182,12 +171,11 @@ img {
     background-color: rgba(0, 0, 0, 0.4);
     margin-top: 10px;
     padding: 15px;
-    /* white-space: pre-wrap; */
 }
 
 #signer-link {
     text-decoration: none;
-    color: black;
+    color: white;
     font-size: 20px;
 }
 
