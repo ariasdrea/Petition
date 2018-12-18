@@ -26,10 +26,3 @@ CREATE TABLE user_profiles(
     url VARCHAR(300),
     user_id INTEGER UNIQUE NOT NULL REFERENCES users(id)
 );
-
--- deleting
--- DELETE FROM singers WHERE name = "Taylor Swift";
---
--- UPDATE singers
--- SET name = 'Celine Dion', age = 100 (column name = value)
--- WHERE name = 'Taylor Swift'

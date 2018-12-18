@@ -1,5 +1,5 @@
 const spicedPg = require("spiced-pg");
-// const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition"); //DATABASE URL ON LOCAL MACHINE
+//DATABASE URL ON LOCAL MACHINE
 
 // DATABASE URL FOR HEROKU
 const db = spicedPg(
@@ -145,12 +145,3 @@ exports.deleteSig = function(id) {
         [id]
     );
 };
-
-// exports.checkSignature = function(id) {
-//     return db.query(
-//         `
-//         SELECT * FROM signatures
-//         WHERE user_id = $1`,
-//         [id]
-//     );
-// };

@@ -20,13 +20,6 @@ app.use(
     })
 );
 
-// app.use(
-//     cookieSession({
-//         secret: process.env.SESSION.SECRET || require('/.secrets').sessionSecret,
-//         maxAge: 1000 * 60 * 60 * 24 * 14
-//     })
-// );
-
 app.use(express.static("./public"));
 
 // --------- SECURITY PROTECTION -----------
@@ -126,10 +119,6 @@ app.post("/profile", function(req, res) {
     return db
         .profile(req.body.age, req.body.city, req.body.url, req.session.userId)
         .then(function() {
-            // is this necessary?!?!?!
-            // req.session.age = result.rows[0].age;
-            // req.session.city = result.rows[0].city;
-            // req.session.url = result.rows[0].url;
             res.redirect("/petition");
         })
         .catch(function(err) {
