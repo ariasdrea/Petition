@@ -26,4 +26,8 @@ The cause for this particular petition was advocating for dogs from an adoption 
 
 ## Preview
 
+**_Intro Page & Registration_**
 <img src="public/images/registration.gif">
+
+**_Signing the Petition & Updating User Profile_**
+<img src="public/images/signature.gif">
