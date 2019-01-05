@@ -35,3 +35,6 @@ The cause for this particular petition was advocating for dogs from an adoption 
 
 **_Viewing List of Supporters (Total Count & by Location)_**
 <img src="public/images/supporters.gif">
+
+**_Login Function_**
+<img src="public/images/login.gif">
