@@ -30,11 +30,17 @@ The cause for this particular petition was advocating for dogs from an adoption 
 **_Intro Page & Registration_**
 <img src="public/images/registration.gif">
 
+<br>
+
 **_Signing the Petition & Updating User Profile_**
 <img src="public/images/signature.gif">
 
+<br>
+
 **_Viewing List of Supporters (Total Count & by Location)_**
 <img src="public/images/supporters.gif">
+
+<br>
 
 **_Login Function_**
 <img src="public/images/login.gif">
