@@ -8,9 +8,9 @@ https://pupfridays.herokuapp.com/
 
 This project was one of my favorites during my time in SPICED Academy!
 
-The project's goal was creating an online petition where supporters can register, log in, update profile information, provide their signature, redo their signature, and view a list of fellow supporters, those who signed thus far and sorted by location.
+The project's goal was creating an online petition where supporters can register, log in, update profile information, provide their signature, redo their signature, and view a list of fellow supporters (those who signed thus far, sorted by location).
 
-The cause for this particular petition was advocating for dogs from an adoption organization to visit SPICED Academy every Friday to bring joy to students and staff and assist in stress-relief.
+The cause for this particular petition advocates having dogs from an adoption organization to visit SPICED Academy every Friday to bring joy to students and staff and assist in stress-relief.
 
 ## Features
 
