@@ -20,9 +20,11 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.use(
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
 
 app.use(csurf());
 
@@ -64,16 +66,15 @@ app.post("/register", (req, res) => {
     db.hashedPassword(req.body.pass).then(function(hash) {
         return db
             .createUser(req.body.first, req.body.last, req.body.email, hash)
-            .then(function(result) {
+            .then(result => {
                 req.session.userId = result.rows[0].id;
                 req.session.first = result.rows[0].first;
                 req.session.last = result.rows[0].last;
             })
-            .then(function() {
+            .then(() => {
                 res.redirect("/profile");
             })
-            .catch(function(err) {
-                console.log("error in REGISTER POST:", err);
+            .catch(err => {
                 res.render("register", {
                     layout: "main",
                     error: err
@@ -88,8 +89,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    db.getUser(req.body.email).then(function(rows) {
-        console.log("POST LOGIN RESULT:", rows);
+    db.getUser(req.body.email).then(rows => {
         return db
             .checkPassword(req.body.pass, rows[0].pass)
             .then(function(result) {
@@ -108,7 +108,6 @@ app.post("/login", (req, res) => {
             .catch(function(err) {
                 console.log("error in LOGIN POST:", err);
                 res.redirect("/login");
-                //with an error to show
             });
     });
 });
@@ -121,10 +120,10 @@ app.get("/profile", (req, res) => {
 app.post("/profile", (req, res) => {
     return db
         .profile(req.body.age, req.body.city, req.body.url, req.session.userId)
-        .then(function() {
+        .then(() => {
             res.redirect("/petition");
         })
-        .catch(function(err) {
+        .catch(err => {
             console.log("error in PROFILE POST:", err);
             res.redirect("/profile");
         });
@@ -184,9 +183,8 @@ app.post("/edit", function(req, res) {
 });
 
 //------------- PETITION / SIGNATURE ---------------
-app.get("/petition", function(req, res) {
+app.get("/petition", (req, res) => {
     if (!req.session.sigId) {
-        console.log("req.session.sigId in GET PETITION:", req.session.sigId);
         res.render("petition", {
             layout: "main"
         });
@@ -195,14 +193,13 @@ app.get("/petition", function(req, res) {
     }
 });
 
-app.post("/petition", function(req, res) {
+app.post("/petition", (req, res) => {
     db.signatures(req.body.signature, req.session.userId)
-        .then(function(result) {
-            console.log("POST PETITION RESULT:", result);
+        .then(result => {
             req.session.sigId = result.rows[0].id;
             res.redirect("/thanks");
         })
-        .catch(function(err) {
+        .catch(err => {
             console.log("error in PETITION POST:", err);
             res.render("petition", {
                 layout: "main",
@@ -213,16 +210,16 @@ app.post("/petition", function(req, res) {
 
 //------------- DELETE SIGNATURE ---------------
 
-app.post("/signature/delete", function(req, res) {
+app.post("/signature/delete", (req, res) => {
     console.log("req.session.userId in DELETE POST:", req.session.userId);
 
     return db
         .deleteSig(req.session.userId)
-        .then(function() {
+        .then(() => {
             req.session.sigId = null;
             res.redirect("/petition");
         })
-        .catch(function(err) {
+        .catch(err => {
             console.log("error in DELETE SIG POST:", err);
             res.redirect("/thanks");
         });
@@ -231,14 +228,14 @@ app.post("/signature/delete", function(req, res) {
 //------------- THANK YOU PAGE ---------------
 app.get("/thanks", (req, res) => {
     db.showSignature(req.session.sigId)
-        .then(function(result) {
+        .then(result => {
             res.render("thanks", {
                 layout: "main",
                 first: req.session.first,
                 signature: result.rows[0].signature
             });
         })
-        .catch(function(err) {
+        .catch(err => {
             console.log("error in showsignature:", err);
         });
 });
@@ -250,26 +247,24 @@ app.post("/thanks", (req, res) => {
 //------------- LIST OF SIGNERS ---------------
 app.get("/signers", (req, res) => {
     db.signers()
-        .then(function(result) {
+        .then(result => {
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
             });
         })
-        .catch(function(err) {
+        .catch(err => {
             console.log("error in signers:", err);
         });
 });
 
-app.get("/signers/:city", function(req, res) {
-    console.log("req.params:", req.params);
-    db.cities(req.params.city).then(function(result) {
-        console.log("result in signer/city:", result);
+app.get("/signers/:city", (req, res) => {
+    db.cities(req.params.city).then(result => {
         res.render("cities", {
             layout: "main",
             citysigner: result.rows,
             city: req.params.city
-        }).catch(function(err) {
+        }).catch(err => {
             console.log("err in db.cities:", err);
             res.redirect("/signers");
         });
@@ -277,7 +272,7 @@ app.get("/signers/:city", function(req, res) {
 });
 
 //------------- LOGOUT FEATURE ---------------
-app.get("/logout", function(req, res) {
+app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/register");
 });

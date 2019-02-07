@@ -19,7 +19,7 @@ exports.signatures = (signature, user_id) => {
 };
 
 // LIST OF SIGNERS
-exports.signers = function() {
+exports.signers = () => {
     return db
         .query(
             `SELECT first, last, age, city, url FROM signatures
@@ -28,12 +28,12 @@ exports.signers = function() {
             LEFT JOIN user_profiles
             ON user_profiles.user_id = signatures.user_id`
         )
-        .then(function(signer) {
+        .then(signer => {
             return signer;
         });
 };
 
-exports.cities = function(city) {
+exports.cities = city => {
     return db.query(
         `SELECT first, last, age, url FROM signatures
         LEFT JOIN users
@@ -46,12 +46,12 @@ exports.cities = function(city) {
 };
 
 // SHOWS SIG
-exports.showSignature = function(id) {
+exports.showSignature = id => {
     return db.query(`SELECT signature FROM signatures WHERE id = $1`, [id]);
 };
 
 //REGISTER USERS
-exports.createUser = function(first, last, email, pass) {
+exports.createUser = (first, last, email, pass) => {
     return db.query(
         `INSERT INTO users (first, last, email, pass)
         VALUES ($1, $2, $3, $4)
@@ -61,7 +61,7 @@ exports.createUser = function(first, last, email, pass) {
 };
 
 // GET USER BY EMAIL ADDRESS
-exports.getUser = function(email) {
+exports.getUser = email => {
     return db
         .query(
             `SELECT first, last, users.id AS userId, signatures.id AS sigId, pass
@@ -71,23 +71,23 @@ exports.getUser = function(email) {
          WHERE email = $1`,
             [email]
         )
-        .then(function(result) {
+        .then(result => {
             return result.rows;
         });
 };
 
 // HASHING PASSWORDS
-exports.hashedPassword = function(pass) {
+exports.hashedPassword = pass => {
     return bcrypt.hash(pass);
 };
 
 // CHECK/COMPARE PASSWORDS
-exports.checkPassword = function(pass, hash) {
+exports.checkPassword = (pass, hash) => {
     return bcrypt.compare(pass, hash);
 };
 
 // PROFILE PAGE
-exports.profile = function(age, city, url, user_id) {
+exports.profile = (age, city, url, user_id) => {
     return db.query(
         `INSERT INTO user_profiles(age, city, url, user_id)
     VALUES ($1, $2, $3, $4)
@@ -97,7 +97,7 @@ exports.profile = function(age, city, url, user_id) {
 };
 
 //SHOW USER INFO IN EDIT PROFILE
-exports.populateInfo = function(id) {
+exports.populateInfo = id => {
     return db.query(
         `SELECT u.first, u.last, u.email, up.age, up.city, up.url
         FROM users AS u
@@ -108,7 +108,7 @@ exports.populateInfo = function(id) {
     );
 };
 
-exports.updateProfile = function(age, city, url, user_id) {
+exports.updateProfile = (age, city, url, user_id) => {
     return db.query(
         `INSERT INTO user_profiles (age, city, url, user_id)
         VALUES ($1, $2, $3, $4)
@@ -118,7 +118,7 @@ exports.updateProfile = function(age, city, url, user_id) {
     );
 };
 
-exports.updateUserWithPass = function(user_id, first, last, email, pass) {
+exports.updateUserWithPass = (user_id, first, last, email, pass) => {
     if (pass) {
         return db.query(
             `UPDATE users
@@ -129,7 +129,7 @@ exports.updateUserWithPass = function(user_id, first, last, email, pass) {
     }
 };
 
-exports.updateUserWithoutPass = function(user_id, first, last, email) {
+exports.updateUserWithoutPass = (user_id, first, last, email) => {
     return db.query(
         `UPDATE users
         SET first = $2, last = $3, email = $4
@@ -137,7 +137,7 @@ exports.updateUserWithoutPass = function(user_id, first, last, email) {
         [user_id, first, last, email]
     );
 };
-exports.deleteSig = function(id) {
+exports.deleteSig = id => {
     return db.query(
         `
         DELETE FROM signatures
