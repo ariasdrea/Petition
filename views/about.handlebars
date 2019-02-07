@@ -16,6 +16,7 @@
                 <strong>Let's come together to make Pup Fridays a reality.</strong>
             </p>
 
+<!--csurf middleware will look for name attribute _csurf in the request body. The value is the csrf token  -->
         <form method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <button style="font-size: 18px;">Continue to Register</button>

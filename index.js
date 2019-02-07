@@ -11,33 +11,36 @@ const csurf = require("csurf");
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 // ------------ DO NOT TOUCH ------------
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(
-    cookieSession({
-        secret: `merpaderp.`,
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
-
 app.use(express.static("./public"));
 
 // --------- SECURITY PROTECTION -----------
+app.use(
+    cookieSession({
+        secret: `always hungry`,
+        maxAge: 1000 * 60 * 60 * 24 * 14
+    })
+);
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+
 app.use(csurf());
 
-app.use(function(req, res, next) {
+//express adds to every response an object prop called locals. This middleware ensures token is available in all templates.
+app.use((req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.setHeader("X-Frame-Options", "DENY");
     next();
 });
+
 app.disable("x-powered-by");
 // --------- SECURITY PROTECTION -----------
 
-//------------- HOMEPAGE ---------------
+//------------- HOMEPAGE ROUTES ---------------
 app.get("/", (req, res) => {
     res.redirect("/about");
 });
@@ -51,13 +54,13 @@ app.post("/about", (req, res) => {
 });
 
 //------------- REGISTER ---------------
-app.get("/register", function(req, res) {
+app.get("/register", (req, res) => {
     res.render("register", {
         layout: "main"
     });
 });
 
-app.post("/register", function(req, res) {
+app.post("/register", (req, res) => {
     db.hashedPassword(req.body.pass).then(function(hash) {
         return db
             .createUser(req.body.first, req.body.last, req.body.email, hash)
@@ -80,11 +83,11 @@ app.post("/register", function(req, res) {
 });
 
 //------------- LOGIN ---------------
-app.get("/login", function(req, res) {
-    res.render("login", {});
+app.get("/login", (req, res) => {
+    res.render("login");
 });
 
-app.post("/login", function(req, res) {
+app.post("/login", (req, res) => {
     db.getUser(req.body.email).then(function(rows) {
         console.log("POST LOGIN RESULT:", rows);
         return db
@@ -111,11 +114,11 @@ app.post("/login", function(req, res) {
 });
 
 //------------- USER PROFILE ---------------
-app.get("/profile", function(req, res) {
+app.get("/profile", (req, res) => {
     res.render("profile");
 });
 
-app.post("/profile", function(req, res) {
+app.post("/profile", (req, res) => {
     return db
         .profile(req.body.age, req.body.city, req.body.url, req.session.userId)
         .then(function() {
