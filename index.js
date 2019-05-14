@@ -2,24 +2,25 @@ const express = require("express");
 const app = express();
 const ca = require("chalk-animation");
 const hb = require("express-handlebars");
-const db = require("./utils/db");
+const db = require("./db"); //imports the db file
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 
-// ------------ DO NOT TOUCH ------------
+// --------------- DO NOT TOUCH ---------------
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
-// ------------ DO NOT TOUCH ------------
+// --------------- DO NOT TOUCH ---------------
 app.use(express.static("./public"));
 
-// --------- SECURITY PROTECTION -----------
+// --------------- SECURITY PROTECTION ---------------
 app.use(
     cookieSession({
-        secret: `always hungry`,
+        secret: `I'm always hungry`,
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
+
 app.use(
     bodyParser.urlencoded({
         extended: false
@@ -40,9 +41,9 @@ app.use((req, res, next) => {
 });
 
 app.disable("x-powered-by");
-// --------- SECURITY PROTECTION -----------
+// --------------- SECURITY PROTECTION ---------------
 
-//------------- HOMEPAGE ROUTES ---------------
+//------------- HOMEPAGE ---------------
 app.get("/", (req, res) => {
     res.redirect("/about");
 });
@@ -63,6 +64,7 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
+    console.log("req.body:", req.body);
     db.hashedPassword(req.body.pass).then(function(hash) {
         return db
             .createUser(req.body.first, req.body.last, req.body.email, hash)
@@ -93,6 +95,8 @@ app.post("/login", (req, res) => {
         return db
             .checkPassword(req.body.pass, rows[0].pass)
             .then(function(result) {
+                // console.log("result:", result);
+                //result is a boolean value of true if the login is successful
                 if (result == true) {
                     req.session.first = rows[0].first;
                     req.session.last = rows[0].last;
@@ -134,6 +138,7 @@ app.get("/edit", function(req, res) {
     const userId = req.session.userId;
     db.populateInfo(userId)
         .then(function(results) {
+            console.log("results.rows in get /edit:", results.rows);
             res.render("editprofile", {
                 layout: "main",
                 profile: results.rows[0]
@@ -156,16 +161,16 @@ app.post("/edit", function(req, res) {
 
     if (pass) {
         db.hashedPassword(pass)
-            .then(function(hash) {
+            .then(hash => {
                 Promise.all([
                     db.updateUserWithPass(first, last, email, hash, userId),
                     db.updateProfile(age, city, url, userId)
                 ]);
             })
-            .then(function() {
+            .then(() => {
                 res.redirect("/petition");
             })
-            .catch(function(err) {
+            .catch(err => {
                 console.log("Error in IF - EDIT POST:", err);
             });
     } else {
@@ -173,10 +178,10 @@ app.post("/edit", function(req, res) {
             db.updateUserWithoutPass(userId, first, last, email),
             db.updateProfile(age, city, url, userId)
         ])
-            .then(function() {
+            .then(() => {
                 res.redirect("/petition");
             })
-            .catch(function(err) {
+            .catch(err => {
                 console.log("Error in ELSE - EDIT POST:", err);
             });
     }
@@ -278,5 +283,5 @@ app.get("/logout", (req, res) => {
 });
 
 app.listen(process.env.PORT || 8080, function() {
-    ca.rainbow("Listening:");
+    ca.rainbow("Listening on 8080:");
 });

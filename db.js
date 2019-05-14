@@ -7,6 +7,13 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/petition"
 );
 
+//modifiy the postgres string accordingly:
+// var db = spicedPg("postgres:spicedling:password@localhost:5432/cities");
+// spicedling:password should be postgres:postgres
+// 1st postgres - name of db we use, 2nd is username, 3rd is the password
+// localhost 5432 - is the port we listen for database queries on
+// cities is the name of the database we're talking to
+
 const bcrypt = require("./bcrypt");
 
 exports.signatures = (signature, user_id) => {
@@ -124,7 +131,7 @@ exports.updateUserWithPass = (user_id, first, last, email, pass) => {
             `UPDATE users
             SET first = $2, last = $3, email = $4, pass = $5
             WHERE id = $1`,
-            [user_id, first, last, email]
+            [user_id, first, last, email, pass]
         );
     }
 };
