@@ -58,6 +58,7 @@ app.post("/about", (req, res) => {
 
 //------------- REGISTER ---------------
 app.get("/register", (req, res) => {
+    //renders registration template on top of the layout
     res.render("register", {
         layout: "main"
     });
@@ -92,14 +93,16 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
     db.getUser(req.body.email).then(rows => {
+        //checkpassword(textenteredinloginform(req.body.pass), hashedpasswordfromdb(rows[0].pass))
         return db
             .checkPassword(req.body.pass, rows[0].pass)
             .then(function(result) {
                 // console.log("result:", result);
-                //result is a boolean value of true if the login is successful
+                //result is a boolean value of true if the login is successful/passwords match
                 if (result == true) {
                     req.session.first = rows[0].first;
                     req.session.last = rows[0].last;
+                    //stores userId in cookie to show that user is logged in
                     req.session.userId = rows[0].userid;
                     req.session.sigId = rows[0].sigid;
                     if (!req.session.sigId) {
