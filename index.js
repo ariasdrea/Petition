@@ -43,6 +43,20 @@ app.use((req, res, next) => {
 app.disable("x-powered-by");
 // --------------- SECURITY PROTECTION ---------------
 
+////// 1. IMPORTING FROM MIDDLEWARE.JS /////
+//importing as an object (destructuring syntax)
+// We invoke this function in /petition.
+// const { requireNoSignature } = require("./middleware");
+////// IMPORTING FROM MIDDLEWARE.JS /////
+
+///// IMPORTING FROM PROFILE.JS /////
+
+// const profileRouter = "./routers/profile";
+// app.use(profileRouter);
+
+//will go inside profile router, did user use a get or post request ? If not, it will continue reading code in index.js
+///// IMPORTING FROM PROFILE.JS /////
+
 //------------- HOMEPAGE ---------------
 app.get("/", (req, res) => {
     res.redirect("/about");
@@ -120,6 +134,8 @@ app.post("/login", (req, res) => {
 });
 
 //------------- USER PROFILE ---------------
+//////// EX IN ENCOUNTER: TAKE THESE TWO ROUTES AND TAKE THEM OUT OF INDEX.JS AND PUT THEM IN PROFILE.JS USING EXPRESS ROUTER ////////
+//copy both these profile routes/delete them from index.js and put them in profile.js file and rewrite them to work with the router variable
 app.get("/profile", (req, res) => {
     res.render("profile");
 });
@@ -191,6 +207,15 @@ app.post("/edit", function(req, res) {
 });
 
 //------------- PETITION / SIGNATURE ---------------
+// USING MIDDLEWARE FUNCTION IN /PETITION
+//You can run multiple middleware functions in a get route (ivana tested it)
+// app.get("/petition", requireNoSignature, (req, res) => {
+//     res.render("petition", {
+//         layout: "main"
+//     });
+// });
+
+// code below would be deleted and moved to profile.js
 app.get("/petition", (req, res) => {
     if (!req.session.sigId) {
         res.render("petition", {
@@ -217,10 +242,8 @@ app.post("/petition", (req, res) => {
 });
 
 //------------- DELETE SIGNATURE ---------------
-
 app.post("/signature/delete", (req, res) => {
     console.log("req.session.userId in DELETE POST:", req.session.userId);
-
     return db
         .deleteSig(req.session.userId)
         .then(() => {
@@ -278,6 +301,11 @@ app.get("/signers/:city", (req, res) => {
         });
     });
 });
+
+//------------- DELETE ACCOUNT ---------------
+// app.post("/delete", (req, res) => {
+//     console.log("req.body:", req.body);
+// });
 
 //------------- LOGOUT FEATURE ---------------
 app.get("/logout", (req, res) => {

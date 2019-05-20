@@ -13,15 +13,14 @@ const db = spicedPg(
 // 1st postgres - name of db we use, 2nd is username, 3rd is the password
 // localhost 5432 - is the port we listen for database queries on
 // cities is the name of the database we're talking to
-
 const bcrypt = require("./bcrypt");
 
 exports.signatures = (signature, user_id) => {
     return db.query(
         `INSERT INTO signatures (signature, user_id)
-            VALUES ($1, $2)
-            RETURNING *`,
-        [signature || null, user_id || null]
+        VALUES ($1, $2)
+        RETURNING *`,
+        [signature, user_id || null]
     );
 };
 
@@ -72,10 +71,10 @@ exports.getUser = email => {
     return db
         .query(
             `SELECT first, last, users.id AS userId, signatures.id AS sigId, pass
-         FROM users
-         LEFT JOIN signatures
-         ON users.id = signatures.user_id
-         WHERE email = $1`,
+            FROM users
+            LEFT JOIN signatures
+            ON users.id = signatures.user_id
+            WHERE email = $1`,
             [email]
         )
         .then(result => {
@@ -115,6 +114,7 @@ exports.populateInfo = id => {
     );
 };
 
+//DOING AN 'UPSERT' HERE (UPDATE & INSERT) - INSERT ROW IF IT DOESN'T EXIST AND UPDATE IF IT DOES
 exports.updateProfile = (age, city, url, user_id) => {
     return db.query(
         `INSERT INTO user_profiles (age, city, url, user_id)
@@ -125,6 +125,7 @@ exports.updateProfile = (age, city, url, user_id) => {
     );
 };
 
+//UPDATE COMMAND SINCE USERS DEFINITELY HAVE A ROW IN TABLE
 exports.updateUserWithPass = (user_id, first, last, email, pass) => {
     if (pass) {
         return db.query(
@@ -136,6 +137,8 @@ exports.updateUserWithPass = (user_id, first, last, email, pass) => {
     }
 };
 
+//UPDATE COMMAND SINCE USERS DEFINITELY HAVE A ROW IN TABLE
+//USER DID NOT SUBMIT PASSWORD, SO QUERY WILL NOT UPDATE PASSWORD
 exports.updateUserWithoutPass = (user_id, first, last, email) => {
     return db.query(
         `UPDATE users
@@ -144,6 +147,8 @@ exports.updateUserWithoutPass = (user_id, first, last, email) => {
         [user_id, first, last, email]
     );
 };
+
+//
 exports.deleteSig = id => {
     return db.query(
         `
@@ -151,4 +156,15 @@ exports.deleteSig = id => {
         WHERE user_id = $1`,
         [id]
     );
+};
+
+exports.deleteAccount = id => {
+    return db
+        .query
+        // `
+        // DELETE FROM users
+        // USING signatures AND user_profiles
+        // WHERE id = $1`,
+        // [id]
+        ();
 };
