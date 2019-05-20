@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+//exporting app for usage in index.test.js
+exports.app = app;
+//exporting app for usage in index.test.js
 const ca = require("chalk-animation");
 const hb = require("express-handlebars");
 const db = require("./db"); //imports the db file
@@ -256,6 +259,11 @@ app.post("/signature/delete", (req, res) => {
         });
 });
 
+//------------- DELETE ACCOUNT ---------------
+// app.post("/delete", (req, res) => {
+//     console.log("req.body:", req.body);
+// });
+
 //------------- THANK YOU PAGE ---------------
 app.get("/thanks", (req, res) => {
     db.showSignature(req.session.sigId)
@@ -302,17 +310,61 @@ app.get("/signers/:city", (req, res) => {
     });
 });
 
-//------------- DELETE ACCOUNT ---------------
-// app.post("/delete", (req, res) => {
-//     console.log("req.body:", req.body);
-// });
-
 //------------- LOGOUT FEATURE ---------------
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/register");
 });
 
-app.listen(process.env.PORT || 8080, function() {
-    ca.rainbow("Listening on 8080:");
+//---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
+// app.get("/home", (req, res) => {
+//     res.send("<h1>home</h1>");
+// });
+
+app.get("/home", (req, res) => {
+    if (!req.session.whateves) {
+        res.redirect("/registration");
+    } else {
+        res.send("<p>registration</p>");
+    }
 });
+//---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
+//
+// app.listen(process.env.PORT || 8080, function() {
+//     ca.rainbow("Listening on 8080:");
+// });
+
+//to make the test finish - otherwise, jest would restart the server
+if (require.main == module) {
+    app.listen(8080, () => ca.rainbow("Listening on 8080:"));
+}
+
+///////// EXPRESS ROUTER - MODULARIZED CODE  /////////
+
+// app.get('/petition', requireNoSignature, (req, res) => {
+//     res.sendStatus(200);
+// });
+//
+// app.post('/petition', requireNoSignature, (req, res) => {
+//     res.sendStatus(200);
+// });
+//
+// app.get('/thanks', requireSignature, (req, res) => {
+//     res.sendStatus(200);
+// });
+//
+// app.get('/signers', requireSignature, (req, res) => {
+//     res.sendStatus(200);
+// });
+//
+// app.get('/signers/:city', requireSignature, (req, res) => {
+//     res.sendStatus(200);
+// });
+//
+// app.post('/signature/delete', (req, res) => {
+//     res.sendStatus(200);
+// });
+//
+// app.get('/logout', (req, res) => {
+//     res.sendStatus(200);
+// });
