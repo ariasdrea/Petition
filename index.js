@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
-//exporting app for usage in index.test.js
+//////exporting app for usage in index.test.js//////
 exports.app = app;
-//exporting app for usage in index.test.js
+//////exporting app for usage in index.test.js//////
 const ca = require("chalk-animation");
 const hb = require("express-handlebars");
 const db = require("./db"); //imports the db file
@@ -163,7 +163,7 @@ app.get("/edit", function(req, res) {
             console.log("results.rows in get /edit:", results.rows);
             res.render("editprofile", {
                 layout: "main",
-                profile: results.rows[0]
+                profile: results.rows[0] //sends info from db to the frontend (handlebars)
             });
         })
         .catch(function(err) {
@@ -317,17 +317,28 @@ app.get("/logout", (req, res) => {
 });
 
 //---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
+
+// I.
 // app.get("/home", (req, res) => {
 //     res.send("<h1>home</h1>");
 // });
 
+// II.
 app.get("/home", (req, res) => {
-    if (!req.session.whateves) {
+    if (!req.session.whatever) {
         res.redirect("/registration");
     } else {
         res.send("<p>registration</p>");
     }
 });
+
+// III.
+// SETTING A COOKIE  - see how to write a unit test to confirm a certain cookie has been set!
+app.post("/welcome", (req, res) => {
+    req.session.submitted = true;
+    res.redirect("/registration");
+});
+
 //---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
 //
 // app.listen(process.env.PORT || 8080, function() {
@@ -340,7 +351,6 @@ if (require.main == module) {
 }
 
 ///////// EXPRESS ROUTER - MODULARIZED CODE  /////////
-
 // app.get('/petition', requireNoSignature, (req, res) => {
 //     res.sendStatus(200);
 // });

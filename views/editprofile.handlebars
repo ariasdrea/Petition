@@ -12,13 +12,15 @@
 
     <form method="POST">
         <p id="edit-title">Edit Your Profile</p>
-            <input type="text" name="first" placeholder="first name" value={{# profile}}{{first}}{{/profile}}>
-            <input type="text" name="last" placeholder="last name" value={{# profile}}{{last}}{{/profile}}>
-            <input type="text" name="email" placeholder="email" value={{# profile}}{{email}}{{/profile}}>
+            {{# profile}}
+            <input type="text" name="first" placeholder="first name" value={{first}}>
+            <input type="text" name="last" placeholder="last name" value={{last}}>
+            <input type="text" name="email" placeholder="email" value={{email}}>
             <input type="password" name="password" placeholder="password">
-            <input type="text" name="age" placeholder="age" value={{# profile}}{{age}}{{/profile}}>
-            <input type="text" name="city" placeholder="city" value={{# profile}}{{city}}{{/profile}}>
-            <input type="url" name="homepage" placeholder="Include https://" value={{# profile}}{{url}}{{/profile}}>
+            <input type="text" name="age" placeholder="age" value={{age}}>
+            <input type="text" name="city" placeholder="city" value={{city}}>
+            <input type="url" name="homepage" placeholder="Include https://" value={{url}}>
+            {{/profile}}
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
 
             <div id="button-div">
