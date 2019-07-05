@@ -158,13 +158,13 @@ exports.deleteSig = id => {
     );
 };
 
-exports.deleteAccount = id => {
-    return db
-        .query
-        // `
-        // DELETE FROM users
-        // USING signatures AND user_profiles
-        // WHERE id = $1`,
-        // [id]
-        ();
-};
+// exports.deleteAccount = id => {
+//     return db
+//         .query
+//         // `
+//         // DELETE FROM users
+//         // USING signatures AND user_profiles
+//         // WHERE id = $1`,
+//         // [id]
+//         ();
+// };

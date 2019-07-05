@@ -42,7 +42,7 @@
         //toDataURL is a canvas method returning a data URL that has a representation of the image.
     });
 
-    canvas.on("mouseout", () => (isDrawing = false));
+    // canvas.on("mouseout", () => (isDrawing = false));
 })();
 
 // EVENT HANDLER FOR HOMEPAGE TRANSITION
