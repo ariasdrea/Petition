@@ -1,18 +1,13 @@
 const spicedPg = require("spiced-pg");
-//DATABASE URL ON LOCAL MACHINE
+const { dbUser, dbPass } = require('./secrets.json');
 
 // DATABASE URL FOR HEROKU
 const db = spicedPg(
     process.env.DATABASE_URL ||
-        "postgres:postgres:postgres@localhost:5432/petition"
+        `postgres:${dbUser}:${dbPass}@localhost:5432/petition`
 );
 
-//modifiy the postgres string accordingly:
-// var db = spicedPg("postgres:spicedling:password@localhost:5432/cities");
-// spicedling:password should be postgres:postgres
-// 1st postgres - name of db we use, 2nd is username, 3rd is the password
-// localhost 5432 - is the port we listen for database queries on
-// cities is the name of the database we're talking to
+// localhost 5432 - port we listen for db queries on
 const bcrypt = require("./bcrypt");
 
 exports.signatures = (signature, user_id) => {
@@ -76,10 +71,7 @@ exports.getUser = email => {
             ON users.id = signatures.user_id
             WHERE email = $1`,
             [email]
-        )
-        .then(result => {
-            return result.rows;
-        });
+        );
 };
 
 // HASHING PASSWORDS
@@ -96,8 +88,8 @@ exports.checkPassword = (pass, hash) => {
 exports.profile = (age, city, url, user_id) => {
     return db.query(
         `INSERT INTO user_profiles(age, city, url, user_id)
-    VALUES ($1, $2, $3, $4)
-    RETURNING *`,
+        VALUES ($1, $2, $3, $4)
+        RETURNING *`,
         [age || null, city || null, url || null, user_id || null]
     );
 };
@@ -105,11 +97,11 @@ exports.profile = (age, city, url, user_id) => {
 //SHOW USER INFO IN EDIT PROFILE
 exports.populateInfo = id => {
     return db.query(
-        `SELECT u.first, u.last, u.email, up.age, up.city, up.url
-        FROM users AS u
+        `SELECT users.first, users.last, users.email, up.age, up.city, up.url
+        FROM users
         LEFT JOIN user_profiles AS up
-        ON u.id = up.user_id
-        WHERE u.id = $1`,
+        ON users.id = up.user_id
+        WHERE users.id = $1`,
         [id]
     );
 };
@@ -158,13 +150,20 @@ exports.deleteSig = id => {
     );
 };
 
+exports.totalSigners = () => {
+    return db.query(
+        `SELECT COUNT(*)
+        FROM signatures`
+    );
+};
+
 // exports.deleteAccount = id => {
 //     return db
 //         .query
-//         // `
-//         // DELETE FROM users
-//         // USING signatures AND user_profiles
-//         // WHERE id = $1`,
-//         // [id]
-//         ();
+//     `
+//         DELETE FROM users
+//         USING signatures AND user_profiles
+//         WHERE id = $1`,
+//     [id]
+//     ();
 // };

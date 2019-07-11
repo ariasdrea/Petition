@@ -1,14 +1,18 @@
 const express = require("express");
 const app = express();
-//////exporting app for usage in index.test.js//////
-exports.app = app;
-//////exporting app for usage in index.test.js//////
 const ca = require("chalk-animation");
 const hb = require("express-handlebars");
-const db = require("./db"); //imports the db file
+const db = require("./db");
 const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const {
+    requireLoggedInUser,
+    requireLoggedOutUser,
+    requireSignature,
+    requireNoSignature } = require("./middleware");
+exports.app = app;
+
 
 // --------------- DO NOT TOUCH ---------------
 app.engine("handlebars", hb());
@@ -46,14 +50,7 @@ app.use((req, res, next) => {
 app.disable("x-powered-by");
 // --------------- SECURITY PROTECTION ---------------
 
-////// 1. IMPORTING FROM MIDDLEWARE.JS /////
-//importing as an object (destructuring syntax)
-// We invoke this function in /petition.
-// const { requireNoSignature } = require("./middleware");
-////// IMPORTING FROM MIDDLEWARE.JS /////
-
 ///// IMPORTING FROM PROFILE.JS /////
-
 // const profileRouter = "./routers/profile";
 // app.use(profileRouter);
 
@@ -74,24 +71,20 @@ app.post("/about", (req, res) => {
 });
 
 //------------- REGISTER ---------------
-app.get("/register", (req, res) => {
-    //renders registration template on top of the layout
+app.get("/register", requireLoggedOutUser, (req, res) => {
     res.render("register", {
         layout: "main"
     });
 });
 
-app.post("/register", (req, res) => {
-    console.log("req.body:", req.body);
-    db.hashedPassword(req.body.pass).then(function(hash) {
+app.post("/register", requireLoggedOutUser, (req, res) => {
+    db.hashedPassword(req.body.pass).then(hash => {
         return db
             .createUser(req.body.first, req.body.last, req.body.email, hash)
             .then(result => {
                 req.session.userId = result.rows[0].id;
                 req.session.first = result.rows[0].first;
                 req.session.last = result.rows[0].last;
-            })
-            .then(() => {
                 res.redirect("/profile");
             })
             .catch(err => {
@@ -104,24 +97,21 @@ app.post("/register", (req, res) => {
 });
 
 //------------- LOGIN ---------------
-app.get("/login", (req, res) => {
+app.get("/login", requireLoggedOutUser, (req, res) => {
     res.render("login");
 });
 
-app.post("/login", (req, res) => {
-    db.getUser(req.body.email).then(rows => {
-        //checkpassword(textenteredinloginform(req.body.pass), hashedpasswordfromdb(rows[0].pass))
+app.post("/login", requireLoggedOutUser, (req, res) => {
+    db.getUser(req.body.email).then(results => {
         return db
-            .checkPassword(req.body.pass, rows[0].pass)
-            .then(function(result) {
-                // console.log("result:", result);
-                //result is a boolean value of true if the login is successful/passwords match
+            .checkPassword(req.body.pass, results.rows[0].pass)
+            .then(result => {
                 if (result == true) {
-                    req.session.first = rows[0].first;
-                    req.session.last = rows[0].last;
-                    //stores userId in cookie to show that user is logged in
-                    req.session.userId = rows[0].userid;
-                    req.session.sigId = rows[0].sigid;
+                    req.session.first = results.rows[0].first;
+                    req.session.last = results.rows[0].last;
+                    req.session.userId = results.rows[0].userid;
+                    req.session.sigId = results.rows[0].sigid;
+
                     if (!req.session.sigId) {
                         res.redirect("/petition");
                     } else {
@@ -219,7 +209,7 @@ app.post("/edit", function(req, res) {
 // });
 
 // code below would be deleted and moved to profile.js
-app.get("/petition", (req, res) => {
+app.get("/petition", requireNoSignature, (req, res) => {
     if (!req.session.sigId) {
         res.render("petition", {
             layout: "main"
@@ -229,7 +219,7 @@ app.get("/petition", (req, res) => {
     }
 });
 
-app.post("/petition", (req, res) => {
+app.post("/petition", requireNoSignature, (req, res) => {
     db.signatures(req.body.signature, req.session.userId)
         .then(result => {
             req.session.sigId = result.rows[0].id;
@@ -246,7 +236,6 @@ app.post("/petition", (req, res) => {
 
 //------------- DELETE SIGNATURE ---------------
 app.post("/signature/delete", (req, res) => {
-    console.log("req.session.userId in DELETE POST:", req.session.userId);
     return db
         .deleteSig(req.session.userId)
         .then(() => {
@@ -265,13 +254,18 @@ app.post("/signature/delete", (req, res) => {
 // });
 
 //------------- THANK YOU PAGE ---------------
-app.get("/thanks", (req, res) => {
+app.get("/thanks", requireSignature, (req, res) => {
     db.showSignature(req.session.sigId)
         .then(result => {
-            res.render("thanks", {
-                layout: "main",
-                first: req.session.first,
-                signature: result.rows[0].signature
+            db.totalSigners().then(data => {
+                console.log('result for showSignature:', result);
+                console.log('count for totalSigners:', data);
+                res.render("thanks", {
+                    layout: "main",
+                    first: req.session.first,
+                    signature: result.rows[0].signature,
+                    count: data.rows[0].count
+                });
             });
         })
         .catch(err => {
@@ -284,9 +278,10 @@ app.post("/thanks", (req, res) => {
 });
 
 //------------- LIST OF SIGNERS ---------------
-app.get("/signers", (req, res) => {
+app.get("/signers", requireSignature, (req, res) => {
     db.signers()
         .then(result => {
+            console.log('result in get /signers:', result);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
@@ -297,7 +292,7 @@ app.get("/signers", (req, res) => {
         });
 });
 
-app.get("/signers/:city", (req, res) => {
+app.get("/signers/:city", requireSignature, (req, res) => {
     db.cities(req.params.city).then(result => {
         res.render("cities", {
             layout: "main",
