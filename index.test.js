@@ -1,34 +1,26 @@
-//import super test
-// downlaod supertest package
+//import super test - need to download supertest
+// test.only() - only this specific test will run
 const supertest = require("supertest");
 const { app } = require("./index");
-//here we're requiring the fake cookie-session -- the one that lives in the '__mocks__ directory'
-const cookieSession = require("cookie-session"); //fake cookie session
+console.log('app', app); //to make sure its defined
+// requiring  cookie-session that lives in the '__mocks__ directory' - jest knows to look in there
+const cookieSession = require("cookie-session");
 
 test("GET /home returns as an h1 as response", () => {
-    //returns a promise
     //supertest takes in the server as an argument
     return supertest(app)
         .get("/home")
         .then(res => {
-            console.log("res: ", res);
-            console.log("headers:", res.headers);
             expect(res.statusCode).toBe(200);
             expect(res.text).toBe("<h1>home</h1>");
             expect(res.headers["content-type"]).toContain("text/html");
         });
-    //app has it 'get' and 'post'methods.
 });
 
-// .get() - makes the request
-// .then() - res represents the response I'm getting from the server
-
-// test.only() - only this specific test will run
 test("GET /home with no cookies causes me to be redirected", () => {
     return supertest(app)
         .get("/home")
         .then(res => {
-            //we might not remember what the location header is
             // console.log("location header:", res.headers.location);
             //I want to check if I'm actually being redirected (status code 302)
             expect(res.statusCode).toBe(302);
@@ -37,7 +29,7 @@ test("GET /home with no cookies causes me to be redirected", () => {
 });
 
 //test if we get the correct response when we do have a cookie.
-test.only('GET /home request sends H1 as response when "whatever" cookie is sent!', () => {
+test('GET /home request sends H1 as response when "whatever" cookie is sent!', () => {
     cookieSession.mockSessionOnce({
         whatever: true
     });
@@ -53,15 +45,14 @@ test.only('GET /home request sends H1 as response when "whatever" cookie is sent
 test('POST /welcome should set "submitted" cookie', () => {
     // send over an empty cookie as part of the request I make so that the server has an aempty cookie to put data into.
     //in this case, data refers to {submitted: true}
-    const obj = {};
-    cookieSession.mockSessionOnce(obj);
+    let cookie = {};
+    cookieSession.mockSessionOnce(cookie);
     //next step is to use supertest to make a POST request
     return supertest(app)
         .post("/welcome")
-        .then(res => {
-            //res is response we receive from the server
+        .then(() => {
             //the cookie will be in the object variable (obj) we created up above
-            console.log("obj variable: ", obj);
+            console.log("cookie variable: ", cookie);
         });
 });
 // Me seal with MockSessionOnce in 2 cases.

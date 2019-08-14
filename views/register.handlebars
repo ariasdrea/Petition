@@ -4,16 +4,16 @@
 <h1>Register Here</h1>
 
 {{#if error}}
-<p class="error">Sorry, something went wrong on your end. Try again!</p>
+    <p class="error">Seems like this account already exists, try <a href="/login">logging in.</a></p>
 {{/if}}
 
 <form class="" method="POST">
-        <input class="inputregister" type="text" name="first" placeholder="first name">
-        <input class="inputregister" type="text" name="last" placeholder="last name">
-        <input class="inputregister" type="text" name="email" placeholder="email">
-        <input class="inputregister" type="password" name="pass" placeholder="password">
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button style="font-size: 18px;" >Sign Up</button>
+    <input class="inputregister" type="text" name="first" placeholder="first name">
+    <input class="inputregister" type="text" name="last" placeholder="last name">
+    <input class="inputregister" type="text" name="email" placeholder="email">
+    <input class="inputregister" type="password" name="pass" placeholder="password">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <button style="font-size: 18px;">Sign Up</button>
 </form>
 
 <h2>If you're already a member, please <a class="link" href="/login">log in</a>.</h2>

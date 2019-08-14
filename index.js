@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+const app = (exports.app = express());
 const ca = require("chalk-animation");
 const hb = require("express-handlebars");
 const db = require("./db");
@@ -7,13 +7,11 @@ const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const {
-    requireLoggedInUser,
+    // requireLoggedInUser,
     requireLoggedOutUser,
     requireSignature,
-    requireNoSignature } = require("./middleware");
-exports.app = app;
-
-
+    requireNoSignature
+} = require("./middleware");
 // --------------- DO NOT TOUCH ---------------
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
@@ -117,12 +115,17 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
                     } else {
                         res.redirect("/thanks");
                     }
+                } else {
+                    res.render("login", {
+                        error: 'pass is undefined'
+                    });
                 }
-            })
-            .catch(function(err) {
-                console.log("error in LOGIN POST:", err);
-                res.redirect("/login");
             });
+    }).catch(err => {
+        console.log("error in LOGIN POST:", err);
+        res.render("login", {
+            error: err
+        });
     });
 });
 
@@ -258,8 +261,8 @@ app.get("/thanks", requireSignature, (req, res) => {
     db.showSignature(req.session.sigId)
         .then(result => {
             db.totalSigners().then(data => {
-                console.log('result for showSignature:', result);
-                console.log('count for totalSigners:', data);
+                console.log("result for showSignature:", result);
+                console.log("count for totalSigners:", data);
                 res.render("thanks", {
                     layout: "main",
                     first: req.session.first,
@@ -281,7 +284,7 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", requireSignature, (req, res) => {
     db.signers()
         .then(result => {
-            console.log('result in get /signers:', result);
+            console.log("result in get /signers:", result);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
@@ -314,9 +317,9 @@ app.get("/logout", (req, res) => {
 //---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
 
 // I.
-// app.get("/home", (req, res) => {
-//     res.send("<h1>home</h1>");
-// });
+app.get("/home", (req, res) => {
+    res.send("<h1>home</h1>");
+});
 
 // II.
 app.get("/home", (req, res) => {
@@ -335,41 +338,10 @@ app.post("/welcome", (req, res) => {
 });
 
 //---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
-//
-// app.listen(process.env.PORT || 8080, function() {
-//     ca.rainbow("Listening on 8080:");
-// });
 
-//to make the test finish - otherwise, jest would restart the server
+//if jest runs this file, then the server won't run
 if (require.main == module) {
-    app.listen(8080, () => ca.rainbow("Listening on 8080:"));
+    app.listen(process.env.PORT || 8080, () =>
+        ca.rainbow("Listening on 8080:")
+    );
 }
-
-///////// EXPRESS ROUTER - MODULARIZED CODE  /////////
-// app.get('/petition', requireNoSignature, (req, res) => {
-//     res.sendStatus(200);
-// });
-//
-// app.post('/petition', requireNoSignature, (req, res) => {
-//     res.sendStatus(200);
-// });
-//
-// app.get('/thanks', requireSignature, (req, res) => {
-//     res.sendStatus(200);
-// });
-//
-// app.get('/signers', requireSignature, (req, res) => {
-//     res.sendStatus(200);
-// });
-//
-// app.get('/signers/:city', requireSignature, (req, res) => {
-//     res.sendStatus(200);
-// });
-//
-// app.post('/signature/delete', (req, res) => {
-//     res.sendStatus(200);
-// });
-//
-// app.get('/logout', (req, res) => {
-//     res.sendStatus(200);
-// });

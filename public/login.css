@@ -12,14 +12,12 @@ body {
 }
 
 .login-box {
-    margin-top: 600px;
+    margin-top: 41%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
-    padding: 20px;
     margin-left: 329px;
-    /* margin-right: 40px;  */
     width: 51%;
-    height: 20%;
+    overflow-y: hidden;
 }
 
 .input-container {
@@ -65,4 +63,10 @@ input[type="password"] {
     font-size: 20px;
     font-weight: bold;
     /* text-align: center; */
+}
+
+.error {
+    color: beige;
+    font-weight: bold;
+    font-size: 18px;
 }

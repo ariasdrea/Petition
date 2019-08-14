@@ -157,13 +157,13 @@ exports.totalSigners = () => {
     );
 };
 
-// exports.deleteAccount = id => {
-//     return db
-//         .query
-//     `
-//         DELETE FROM users
-//         USING signatures AND user_profiles
-//         WHERE id = $1`,
-//     [id]
-//     ();
-// };
+exports.deleteAccount = id => {
+    return db.query(`
+        SELECT * FROM users
+        INNER JOIN signatures
+        ON users.id = signatures.user_id
+        INNER JOIN user_profiles
+        ON signatures.user_id = user_profiles.user_id
+        `),
+    [id];
+};
