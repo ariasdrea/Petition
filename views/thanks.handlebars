@@ -18,18 +18,18 @@
             <button id="button-thanks" style="font-size: 20px;">Update Your Profile</button>
         </form>
 
-        <form action = "/signature/delete" method="POST">
+        <form action="/signature/delete" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <button id="button-thanks" style="font-size: 20px;">Redo Your Signature</button>
         </form>
 
-        <form action="/deleteAccount" method="POST">
+        {{!-- <form action="/deleteAccount" method="POST">
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <button id="delete-account" style="font-size: 20px;"> Delete Account</button>
-        </form>
+        </form> --}}
 
     </div>
 
-        <a href="/logout"><button id="logout-thanks" style="font-size: 20px;">Logout</button></a>
+    <a href="/logout"><button id="logout-thanks" style="font-size: 20px;">Logout</button></a>
 
 </div>
