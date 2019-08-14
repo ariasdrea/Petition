@@ -1,10 +1,10 @@
 const spicedPg = require("spiced-pg");
-const { dbUser, dbPass } = require('./secrets.json');
+// const { dbUser, dbPass } = require('./secrets.json');
 
 // DATABASE URL FOR HEROKU
 const db = spicedPg(
     process.env.DATABASE_URL ||
-        `postgres:${dbUser}:${dbPass}@localhost:5432/petition`
+        `postgres:postgres:postgres@localhost:5432/petition`
 );
 
 // localhost 5432 - port we listen for db queries on
