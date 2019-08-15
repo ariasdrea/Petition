@@ -2,18 +2,9 @@ const spicedPg = require("spiced-pg");
 let secrets;
 process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
 
-// DATABASE URL FOR HEROKU
-// const db = spicedPg(
-//     process.env.DATABASE_URL ||
-//         `postgres:postgres:postgres@localhost:5432/petition`
-// );
-
 const db = spicedPg(
     process.env.DATABASE_URL || `postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`
 );
-
-
-
 
 // localhost 5432 - port we listen for db queries on
 const bcrypt = require("./bcrypt");
