@@ -1,6 +1,5 @@
 const express = require("express");
-const app = (exports.app = express());
-const ca = require("chalk-animation");
+const app = express();
 const hb = require("express-handlebars");
 const db = require("./db");
 const bodyParser = require("body-parser");
@@ -19,9 +18,15 @@ app.set("view engine", "handlebars");
 app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
+
+let secrets;
+
+process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
+
+
 app.use(
     cookieSession({
-        secret: `I'm always hungry`,
+        secret: `${secrets.cookieSessionSecret}`,
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
