@@ -11,10 +11,12 @@ const {
     requireSignature,
     requireNoSignature
 } = require("./middleware");
+
 // --------------- DO NOT TOUCH ---------------
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
 // --------------- DO NOT TOUCH ---------------
+
 app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
@@ -22,7 +24,6 @@ app.use(express.static("./public"));
 let secrets;
 
 process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
-
 
 app.use(
     cookieSession({
@@ -52,13 +53,6 @@ app.use((req, res, next) => {
 
 app.disable("x-powered-by");
 // --------------- SECURITY PROTECTION ---------------
-
-///// IMPORTING FROM PROFILE.JS /////
-// const profileRouter = "./routers/profile";
-// app.use(profileRouter);
-
-//will go inside profile router, did user use a get or post request ? If not, it will continue reading code in index.js
-///// IMPORTING FROM PROFILE.JS /////
 
 //------------- HOMEPAGE ---------------
 app.get("/", (req, res) => {
@@ -135,8 +129,6 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
 });
 
 //------------- USER PROFILE ---------------
-//////// EX IN ENCOUNTER: TAKE THESE TWO ROUTES AND TAKE THEM OUT OF INDEX.JS AND PUT THEM IN PROFILE.JS USING EXPRESS ROUTER ////////
-//copy both these profile routes/delete them from index.js and put them in profile.js file and rewrite them to work with the router variable
 app.get("/profile", (req, res) => {
     res.render("profile");
 });
@@ -153,7 +145,7 @@ app.post("/profile", (req, res) => {
         });
 });
 
-// EDIT PROFILE & POPULATE FIELDS
+// --------- EDIT PROFILE & POPULATE FIELDS ---------
 app.get("/edit", function(req, res) {
     const userId = req.session.userId;
     db.populateInfo(userId)
@@ -174,13 +166,12 @@ app.post("/edit", function(req, res) {
     let first = req.body.first;
     let last = req.body.last;
     let email = req.body.email;
-    let pass = req.body.password;
     let age = req.body.age;
     let city = req.body.city;
     let url = req.body.homepage;
 
-    if (pass) {
-        db.hashedPassword(pass)
+    if (req.body.password) {
+        db.hashedPassword(req.body.password)
             .then(hash => {
                 Promise.all([
                     db.updateUserWithPass(first, last, email, hash, userId),
@@ -209,7 +200,8 @@ app.post("/edit", function(req, res) {
 
 //------------- PETITION / SIGNATURE ---------------
 // USING MIDDLEWARE FUNCTION IN /PETITION
-//You can run multiple middleware functions in a get route (ivana tested it)
+//You can run multiple middleware functions in a get route
+
 // app.get("/petition", requireNoSignature, (req, res) => {
 //     res.render("petition", {
 //         layout: "main"
@@ -289,7 +281,7 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", requireSignature, (req, res) => {
     db.signers()
         .then(result => {
-            console.log("result in get /signers:", result);
+            // console.log("result in get /signers:", result);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows

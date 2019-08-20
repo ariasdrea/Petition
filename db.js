@@ -1,17 +1,13 @@
 const spicedPg = require("spiced-pg");
-let db;
+const bcrypt = require("./bcrypt");
 
+let db;
 if (process.env.NODE_ENV === 'production') {
     db = spicedPg(process.env.DATABASE_URL);
 } else {
     const {dbUser, dbPass} = require('./secrets');
     db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
 }
-
-
-
-// localhost 5432 - port we listen for db queries on
-const bcrypt = require("./bcrypt");
 
 exports.signatures = (signature, user_id) => {
     return db.query(
