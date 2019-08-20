@@ -1,5 +1,6 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("./bcrypt");
+// const {dbUser, dbPass} = require('./secrets');
 
 // const db = spicedPg(process.env.DATABASE_URL || `postgres:postgres:postgres@localhost:5432/petition`);
 
