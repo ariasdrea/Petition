@@ -146,22 +146,22 @@ app.post("/profile", (req, res) => {
 });
 
 // --------- EDIT PROFILE & POPULATE FIELDS ---------
-app.get("/edit", function(req, res) {
+app.get("/edit", (req, res) => {
     const userId = req.session.userId;
     db.populateInfo(userId)
-        .then(function(results) {
+        .then(results => {
             console.log("results.rows in get /edit:", results.rows);
             res.render("editprofile", {
                 layout: "main",
                 profile: results.rows[0] //sends info from db to the frontend (handlebars)
             });
         })
-        .catch(function(err) {
+        .catch(err => {
             console.log("error in EDIT GET:", err);
         });
 });
 
-app.post("/edit", function(req, res) {
+app.post("/edit", (req, res) => {
     const userId = req.session.userId;
     let first = req.body.first;
     let last = req.body.last;
@@ -311,34 +311,26 @@ app.get("/logout", (req, res) => {
     res.redirect("/register");
 });
 
-//---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
 
-// I.
-app.get("/home", (req, res) => {
-    res.send("<h1>home</h1>");
-});
+app.listen(process.env.PORT || 8080, () =>
+    console.log("Petition server is up and running")
+);
 
-// II.
-app.get("/home", (req, res) => {
-    if (!req.session.whatever) {
-        res.redirect("/registration");
-    } else {
-        res.send("<p>registration</p>");
-    }
-});
 
-// III.
-// SETTING A COOKIE  - see how to write a unit test to confirm a certain cookie has been set!
-app.post("/welcome", (req, res) => {
-    req.session.submitted = true;
-    res.redirect("/registration");
-});
 
-//---- DUMMY ROUTES - FOR SUPERTEST DEMO ONLY-----
 
-//if jest runs this file, then the server won't run
-if (require.main == module) {
-    app.listen(process.env.PORT || 8080, () =>
-        console.log("Listening on 8080:")
-    );
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

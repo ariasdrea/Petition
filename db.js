@@ -1,49 +1,18 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("./bcrypt");
 
+// const db = spicedPg(process.env.DATABASE_URL || `postgres:postgres:postgres@localhost:5432/petition`);
+
+// const db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
+
 let db;
-if (process.env.NODE_ENV === 'production') {
+if (process.env.DATABASE_URL) {
     db = spicedPg(process.env.DATABASE_URL);
 } else {
     const {dbUser, dbPass} = require('./secrets');
     db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
 }
 
-exports.signatures = (signature, user_id) => {
-    return db.query(
-        `INSERT INTO signatures (signature, user_id)
-        VALUES ($1, $2)
-        RETURNING *`,
-        [signature, user_id || null]
-    );
-};
-
-// LIST OF SIGNERS
-exports.signers = () => {
-    return db
-        .query(
-            `SELECT first, last, age, city, url FROM signatures
-            LEFT JOIN users
-            ON users.id = signatures.user_id
-            LEFT JOIN user_profiles
-            ON user_profiles.user_id = signatures.user_id`
-        )
-        .then(signer => {
-            return signer;
-        });
-};
-
-exports.cities = city => {
-    return db.query(
-        `SELECT first, last, age, url FROM signatures
-        LEFT JOIN users
-        ON users.id = signatures.user_id
-        LEFT JOIN user_profiles
-        ON user_profiles.user_id = signatures.user_id
-        WHERE LOWER(city) = LOWER($1)`,
-        [city]
-    );
-};
 
 // SHOWS SIG
 exports.showSignature = id => {
@@ -73,6 +42,15 @@ exports.getUser = email => {
         );
 };
 
+exports.signatures = (signature, user_id) => {
+    return db.query(
+        `INSERT INTO signatures (signature, user_id)
+        VALUES ($1, $2)
+        RETURNING *`,
+        [signature, user_id || null]
+    );
+};
+
 // HASHING PASSWORDS
 exports.hashedPassword = pass => {
     return bcrypt.hash(pass);
@@ -81,6 +59,33 @@ exports.hashedPassword = pass => {
 // CHECK/COMPARE PASSWORDS
 exports.checkPassword = (pass, hash) => {
     return bcrypt.compare(pass, hash);
+};
+
+// LIST OF SIGNERS
+exports.signers = () => {
+    return db
+        .query(
+            `SELECT first, last, age, city, url FROM signatures
+            LEFT JOIN users
+            ON users.id = signatures.user_id
+            LEFT JOIN user_profiles
+            ON user_profiles.user_id = signatures.user_id`
+        )
+        .then(signer => {
+            return signer;
+        });
+};
+
+exports.cities = city => {
+    return db.query(
+        `SELECT first, last, age, url FROM signatures
+        LEFT JOIN users
+        ON users.id = signatures.user_id
+        LEFT JOIN user_profiles
+        ON user_profiles.user_id = signatures.user_id
+        WHERE LOWER(city) = LOWER($1)`,
+        [city]
+    );
 };
 
 // PROFILE PAGE
@@ -139,7 +144,6 @@ exports.updateUserWithoutPass = (user_id, first, last, email) => {
     );
 };
 
-//
 exports.deleteSig = id => {
     return db.query(
         `
