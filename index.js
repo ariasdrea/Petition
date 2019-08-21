@@ -150,7 +150,6 @@ app.get("/edit", (req, res) => {
     const userId = req.session.userId;
     db.populateInfo(userId)
         .then(results => {
-            console.log("results.rows in get /edit:", results.rows);
             res.render("editprofile", {
                 layout: "main",
                 profile: results.rows[0] //sends info from db to the frontend (handlebars)
@@ -179,7 +178,7 @@ app.post("/edit", (req, res) => {
                 ]);
             })
             .then(() => {
-                res.redirect("/petition");
+                res.redirect("/thanks");
             })
             .catch(err => {
                 console.log("Error in IF - EDIT POST:", err);
@@ -190,7 +189,7 @@ app.post("/edit", (req, res) => {
             db.updateProfile(age, city, url, userId)
         ])
             .then(() => {
-                res.redirect("/petition");
+                res.redirect("/thanks");
             })
             .catch(err => {
                 console.log("Error in ELSE - EDIT POST:", err);
@@ -258,8 +257,6 @@ app.get("/thanks", requireSignature, (req, res) => {
     db.showSignature(req.session.sigId)
         .then(result => {
             db.totalSigners().then(data => {
-                console.log("result for showSignature:", result);
-                console.log("count for totalSigners:", data);
                 res.render("thanks", {
                     layout: "main",
                     first: req.session.first,
@@ -281,7 +278,6 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", requireSignature, (req, res) => {
     db.signers()
         .then(result => {
-            // console.log("result in get /signers:", result);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
@@ -315,22 +311,3 @@ app.get("/logout", (req, res) => {
 app.listen(process.env.PORT || 8080, () =>
     console.log("Petition server is up and running")
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
