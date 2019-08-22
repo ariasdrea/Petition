@@ -1,10 +1,21 @@
 //import super test - need to download supertest
 // test.only() - only this specific test will run
 const supertest = require("supertest");
-const { app } = require("./index");
-console.log('app', app); //to make sure its defined
+//destructuring so i can have access to the methods directly
+const { app }  = require("./index");
+// console.log('app', app); //to make sure its defined
 // requiring  cookie-session that lives in the '__mocks__ directory' - jest knows to look in there
 const cookieSession = require("cookie-session");
+
+test.only('logged out users get redirected to register when they try to go to petition', () => {
+    return supertest(app).get("/petition").then(res => {
+        expect(res.statusCode).toBe(302);
+        expect(res.headers.location).toBe('/registration');
+    });
+});
+
+
+
 
 test("GET /home returns as an h1 as response", () => {
     //supertest takes in the server as an argument

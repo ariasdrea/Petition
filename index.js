@@ -1,28 +1,24 @@
 const express = require("express");
-const app = express();
+// exporting app for jest
+const app = (exports.app = express());
 const hb = require("express-handlebars");
 const db = require("./db");
-const bodyParser = require("body-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const {
-    // requireLoggedInUser,
+    requireLoggedInUser,
     requireLoggedOutUser,
     requireSignature,
     requireNoSignature
 } = require("./middleware");
 
-// --------------- DO NOT TOUCH ---------------
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
-// --------------- DO NOT TOUCH ---------------
-
 app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
 
 let secrets;
-
 process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
 
 app.use(
@@ -33,7 +29,7 @@ app.use(
 );
 
 app.use(
-    bodyParser.urlencoded({
+    express.urlencoded({
         extended: false
     })
 );
@@ -42,12 +38,8 @@ app.use(csurf());
 
 //express adds to every response an object prop called locals. This middleware ensures token is available in all templates.
 app.use((req, res, next) => {
-    res.locals.csrfToken = req.csrfToken();
-    next();
-});
-
-app.use((req, res, next) => {
     res.setHeader("X-Frame-Options", "DENY");
+    res.locals.csrfToken = req.csrfToken();
     next();
 });
 
@@ -74,7 +66,7 @@ app.get("/register", requireLoggedOutUser, (req, res) => {
     });
 });
 
-app.post("/register", requireLoggedOutUser, (req, res) => {
+app.post("/register", (req, res) => {
     db.hashedPassword(req.body.pass).then(hash => {
         return db
             .createUser(req.body.first, req.body.last, req.body.email, hash)
@@ -98,7 +90,7 @@ app.get("/login", requireLoggedOutUser, (req, res) => {
     res.render("login");
 });
 
-app.post("/login", requireLoggedOutUser, (req, res) => {
+app.post("/login", (req, res) => {
     db.getUser(req.body.email).then(results => {
         return db
             .checkPassword(req.body.pass, results.rows[0].pass)
@@ -129,7 +121,7 @@ app.post("/login", requireLoggedOutUser, (req, res) => {
 });
 
 //------------- USER PROFILE ---------------
-app.get("/profile", (req, res) => {
+app.get("/profile", requireLoggedInUser, (req, res) => {
     res.render("profile");
 });
 
@@ -146,7 +138,7 @@ app.post("/profile", (req, res) => {
 });
 
 // --------- EDIT PROFILE & POPULATE FIELDS ---------
-app.get("/edit", (req, res) => {
+app.get("/edit", requireLoggedInUser,  (req, res) => {
     const userId = req.session.userId;
     db.populateInfo(userId)
         .then(results => {
@@ -198,27 +190,13 @@ app.post("/edit", (req, res) => {
 });
 
 //------------- PETITION / SIGNATURE ---------------
-// USING MIDDLEWARE FUNCTION IN /PETITION
-//You can run multiple middleware functions in a get route
-
-// app.get("/petition", requireNoSignature, (req, res) => {
-//     res.render("petition", {
-//         layout: "main"
-//     });
-// });
-
-// code below would be deleted and moved to profile.js
-app.get("/petition", requireNoSignature, (req, res) => {
-    if (!req.session.sigId) {
-        res.render("petition", {
-            layout: "main"
-        });
-    } else {
-        res.redirect("/thanks");
-    }
+app.get("/petition", requireLoggedInUser, requireSignature, (req, res) => {
+    res.render("petition", {
+        layout: "main"
+    });
 });
 
-app.post("/petition", requireNoSignature, (req, res) => {
+app.post("/petition", (req, res) => {
     db.signatures(req.body.signature, req.session.userId)
         .then(result => {
             req.session.sigId = result.rows[0].id;
@@ -253,21 +231,26 @@ app.post("/signature/delete", (req, res) => {
 // });
 
 //------------- THANK YOU PAGE ---------------
-app.get("/thanks", requireSignature, (req, res) => {
-    db.showSignature(req.session.sigId)
-        .then(result => {
-            db.totalSigners().then(data => {
-                res.render("thanks", {
-                    layout: "main",
-                    first: req.session.first,
-                    signature: result.rows[0].signature,
-                    count: data.rows[0].count
+app.get("/thanks", requireLoggedInUser, requireNoSignature, (req, res) => {
+    //if they try to go from edit but they haven't signed yet
+    if (req.session.sigId ) {
+        db.showSignature(req.session.sigId)
+            .then(result => {
+                db.totalSigners().then(data => {
+                    res.render("thanks", {
+                        layout: "main",
+                        first: req.session.first,
+                        signature: result.rows[0].signature,
+                        count: data.rows[0].count
+                    });
                 });
+            })
+            .catch(err => {
+                console.log("error in showsignature:", err);
             });
-        })
-        .catch(err => {
-            console.log("error in showsignature:", err);
-        });
+    } else {
+        res.redirect('/petition');
+    }
 });
 
 app.post("/thanks", (req, res) => {
@@ -275,7 +258,7 @@ app.post("/thanks", (req, res) => {
 });
 
 //------------- LIST OF SIGNERS ---------------
-app.get("/signers", requireSignature, (req, res) => {
+app.get("/signers", requireLoggedInUser, requireSignature, (req, res) => {
     db.signers()
         .then(result => {
             res.render("signers", {
@@ -288,7 +271,7 @@ app.get("/signers", requireSignature, (req, res) => {
         });
 });
 
-app.get("/signers/:city", requireSignature, (req, res) => {
+app.get("/signers/:city", requireLoggedInUser, requireSignature, (req, res) => {
     db.cities(req.params.city).then(result => {
         res.render("cities", {
             layout: "main",
@@ -307,7 +290,9 @@ app.get("/logout", (req, res) => {
     res.redirect("/register");
 });
 
-
-app.listen(process.env.PORT || 8080, () =>
-    console.log("Petition server is up and running")
-);
+//if jest runs this file, then the server won't run
+if (require.main == module) {
+    app.listen(8080, () =>
+        console.log("Listening on 8080:")
+    );
+}

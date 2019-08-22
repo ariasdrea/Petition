@@ -10,27 +10,31 @@ module.exports = {
 function requireLoggedInUser(req, res, next) {
     if (!req.session.userId && req.url != '/register' && req.url != '/login') {
         return res.redirect('/register');
+    } else {
+        next();
     }
-    next();
 }
 
-function requireLoggedOutUser(req, res, next) {
+function requireLoggedOutUser (req, res, next) {
     if (req.session.userId) {
         return res.redirect('/petition');
+    } else {
+        next();
     }
-    next();
 }
 
 function requireSignature(req, res, next) {
-    if (!req.session.sigId) {
+    if (!req.session.sigId && req.url !='/petition') {
         return res.redirect('/petition');
+    } else {
+        next();
     }
-    next();
 }
 
 function requireNoSignature(req, res, next) {
-    if (req.session.sigId) {
+    if (req.session.sigId && req.url !='/thanks') {
         return res.redirect('/thanks');
+    } else {
+        next();
     }
-    next();
 }

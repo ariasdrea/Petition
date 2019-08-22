@@ -1,10 +1,5 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("./bcrypt");
-// const {dbUser, dbPass} = require('./secrets');
-
-// const db = spicedPg(process.env.DATABASE_URL || `postgres:postgres:postgres@localhost:5432/petition`);
-
-// const db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
 
 let db;
 if (process.env.DATABASE_URL) {
@@ -111,7 +106,7 @@ exports.populateInfo = id => {
     );
 };
 
-//DOING AN 'UPSERT' HERE (UPDATE & INSERT) - INSERT ROW IF IT DOESN'T EXIST AND UPDATE IF IT DOES
+//DOING AN 'UPSERT' HERE (UPDATE & INSERT)
 exports.updateProfile = (age, city, url, user_id) => {
     return db.query(
         `INSERT INTO user_profiles (age, city, url, user_id)
@@ -122,7 +117,6 @@ exports.updateProfile = (age, city, url, user_id) => {
     );
 };
 
-//UPDATE COMMAND SINCE USERS DEFINITELY HAVE A ROW IN TABLE
 exports.updateUserWithPass = (user_id, first, last, email, pass) => {
     if (pass) {
         return db.query(
@@ -134,8 +128,6 @@ exports.updateUserWithPass = (user_id, first, last, email, pass) => {
     }
 };
 
-//UPDATE COMMAND SINCE USERS DEFINITELY HAVE A ROW IN TABLE
-//USER DID NOT SUBMIT PASSWORD, SO QUERY WILL NOT UPDATE PASSWORD
 exports.updateUserWithoutPass = (user_id, first, last, email) => {
     return db.query(
         `UPDATE users
