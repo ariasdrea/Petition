@@ -20,6 +20,10 @@ body {
     overflow-y: hidden;
 }
 
+.login-box a {
+    color: inherit;
+}
+
 .input-container {
     text-align: center;
     width: 100%;
