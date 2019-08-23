@@ -12,7 +12,10 @@ if (process.env.DATABASE_URL) {
 
 // SHOWS SIG
 exports.showSignature = id => {
-    return db.query(`SELECT signature FROM signatures WHERE id = $1`, [id]);
+    return db.query(`SELECT signature FROM signatures WHERE id = $1`, [id])
+        .then(results => {
+            return results.rows;
+        });
 };
 
 //REGISTER USERS
@@ -36,6 +39,15 @@ exports.getUser = email => {
             WHERE email = $1`,
             [email]
         );
+};
+
+exports.getLatestInfo = id => {
+    return db.query(`
+        SELECT first FROM users
+        WHERE id = $1`, [id])
+        .then(results => {
+            return results.rows;
+        });
 };
 
 exports.signatures = (signature, user_id) => {
@@ -150,7 +162,9 @@ exports.totalSigners = () => {
     return db.query(
         `SELECT COUNT(*)
         FROM signatures`
-    );
+    ).then(result => {
+        return result.rows;
+    });
 };
 
 exports.deleteAccount = id => {
