@@ -190,7 +190,7 @@ app.post("/edit", (req, res) => {
 });
 
 //------------- PETITION / SIGNATURE ---------------
-app.get("/petition", requireLoggedInUser, requireSignature, (req, res) => {
+app.get("/petition", requireLoggedInUser, requireSignature, requireNoSignature, (req, res) => {
     res.render("petition", {
         layout: "main"
     });
