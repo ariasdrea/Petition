@@ -67,22 +67,30 @@ app.get("/register", requireLoggedOutUser, (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    db.hashedPassword(req.body.pass).then(hash => {
-        return db
-            .createUser(req.body.first, req.body.last, req.body.email, hash)
-            .then(result => {
-                req.session.userId = result.rows[0].id;
-                req.session.first = result.rows[0].first;
-                req.session.last = result.rows[0].last;
-                res.redirect("/profile");
-            })
-            .catch(err => {
-                res.render("register", {
-                    layout: "main",
-                    error: err
+    if (req.body.pass == '') {
+        res.render("register", {
+            layout: "main",
+            passErr: 'Please provide a password'
+        });
+    } else {
+        db.hashedPassword(req.body.pass).then(hash => {
+            return db
+                .createUser(req.body.first, req.body.last, req.body.email, hash)
+                .then(result => {
+                    req.session.userId = result.rows[0].id;
+                    req.session.first = result.rows[0].first;
+                    req.session.last = result.rows[0].last;
+                    res.redirect("/profile");
+                })
+                .catch(err => {
+                    res.render("register", {
+                        layout: "main",
+                        error: err
+                    });
                 });
-            });
-    });
+        });
+
+    }
 });
 
 //------------- LOGIN ---------------
