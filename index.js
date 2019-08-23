@@ -232,22 +232,22 @@ app.post("/signature/delete", (req, res) => {
 
 //------------- THANK YOU PAGE ---------------
 app.get("/thanks", requireLoggedInUser, requireNoSignature, (req, res) => {
-    //if they try to go from edit but they haven't signed yet
-    if (req.session.sigId ) {
-        db.showSignature(req.session.sigId)
-            .then(result => {
-                db.totalSigners().then(data => {
-                    res.render("thanks", {
-                        layout: "main",
-                        first: req.session.first,
-                        signature: result.rows[0].signature,
-                        count: data.rows[0].count
-                    });
-                });
-            })
-            .catch(err => {
-                console.log("error in showsignature:", err);
+    //if they come from edit but haven't signed yet
+    if (req.session.sigId) {
+        Promise.all([
+            db.getLatestInfo(req.session.userId),
+            db.showSignature(req.session.sigId),
+            db.totalSigners()
+        ]).then(result => {
+            result = [...result[0], ...result[1], ...result[2]];
+
+            res.render("thanks", {
+                layout: "main",
+                first: result[0].first,
+                signature: result[1].signature,
+                count: result[2].count
             });
+        });
     } else {
         res.redirect('/petition');
     }
