@@ -239,26 +239,21 @@ app.post("/signature/delete", (req, res) => {
 // });
 
 //------------- THANK YOU PAGE ---------------
-app.get("/thanks", requireLoggedInUser, requireNoSignature, (req, res) => {
-    //if they come from edit but haven't signed yet
-    if (req.session.sigId) {
-        Promise.all([
-            db.getLatestInfo(req.session.userId),
-            db.showSignature(req.session.sigId),
-            db.totalSigners()
-        ]).then(result => {
-            result = [...result[0], ...result[1], ...result[2]];
+app.get("/thanks", requireLoggedInUser, requireNoSignature, requireSignature, (req, res) => {
+    Promise.all([
+        db.getLatestInfo(req.session.userId),
+        db.showSignature(req.session.sigId),
+        db.totalSigners()
+    ]).then(result => {
+        result = [...result[0], ...result[1], ...result[2]];
 
-            res.render("thanks", {
-                layout: "main",
-                first: result[0].first,
-                signature: result[1].signature,
-                count: result[2].count
-            });
+        res.render("thanks", {
+            layout: "main",
+            first: result[0].first,
+            signature: result[1].signature,
+            count: result[2].count
         });
-    } else {
-        res.redirect('/petition');
-    }
+    });
 });
 
 app.post("/thanks", (req, res) => {
@@ -281,6 +276,7 @@ app.get("/signers", requireLoggedInUser, requireSignature, (req, res) => {
 
 app.get("/signers/:city", requireLoggedInUser, requireSignature, (req, res) => {
     db.cities(req.params.city).then(result => {
+        console.log('result from db.cities: ', result);
         res.render("cities", {
             layout: "main",
             citysigner: result.rows,
