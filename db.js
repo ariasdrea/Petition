@@ -73,7 +73,8 @@ exports.checkPassword = (pass, hash) => {
 exports.signers = () => {
     return db
         .query(
-            `SELECT first, last, age, city, url FROM signatures
+            `SELECT first, last, age, city, url
+            FROM signatures
             LEFT JOIN users
             ON users.id = signatures.user_id
             LEFT JOIN user_profiles
