@@ -18,12 +18,9 @@ app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
 
-let secrets;
-process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
-
 app.use(
     cookieSession({
-        secret: `${secrets.cookieSessionSecret}`,
+        secret: `I'm always angry`,
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
@@ -233,11 +230,6 @@ app.post("/signature/delete", (req, res) => {
         });
 });
 
-//------------- DELETE ACCOUNT ---------------
-// app.post("/delete", (req, res) => {
-//     console.log("req.body:", req.body);
-// });
-
 //------------- THANK YOU PAGE ---------------
 app.get("/thanks", requireLoggedInUser, requireNoSignature, requireSignature, (req, res) => {
     Promise.all([
@@ -295,12 +287,4 @@ app.get("/logout", (req, res) => {
 });
 
 
-// //if jest runs this file, then the server won't run
-// if (require.main == module) {
-//     app.listen(process.env.PORT || 8080, () =>
-//         console.log("Listening on 8080:")
-//     );
-// }
-
-
-app.listen(process.env.PORT || 8080, () => console.log("petition is running"));
+app.listen(8080, () => console.log("petition is running"));

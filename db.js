@@ -1,24 +1,10 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("./bcrypt");
 
-// for those who do not have the username and pass in secrets - use this!!!
-// const db = spicedPg(process.env.DATABASE_URL || "postgres:postgres:postgres@localhost:5432/petition");
-
-// const db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
-
 let secrets;
 process.env.DATABASE_URL ? secrets = process.env : secrets = require('./secrets');
 
 const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
-
-// let db;
-// if (process.env.DATABASE_URL) {
-//     db = spicedPg(process.env.DATABASE_URL);
-// } else {
-//     const { dbUser, dbPass } = require('./secrets');
-//     db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
-// }
-
 
 // SHOWS SIG
 exports.showSignature = id => {
@@ -188,12 +174,3 @@ exports.deleteAccount = id => {
         `),
     [id];
 };
-
-
-// let db;
-// if (process.env.DATABASE_URL) {
-//     db = spicedPg(process.env.DATABASE_URL);
-// } else {
-//     const {dbUser, dbPass} = require('./secrets');
-//     db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
-// }
