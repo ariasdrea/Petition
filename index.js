@@ -18,9 +18,12 @@ app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
 
+let secrets;
+process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
+
 app.use(
     cookieSession({
-        secret: `I'm always angry`,
+        secret: `${secrets.cookieSessionSecret}`,
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
