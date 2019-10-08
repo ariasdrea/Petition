@@ -67,7 +67,6 @@ app.get("/register", requireLoggedOutUser, (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    console.log('req.body in register: ', req.body);
     if (req.body.pass == '') {
         res.render("register", {
             layout: "main",
@@ -84,7 +83,6 @@ app.post("/register", (req, res) => {
                     res.redirect("/profile");
                 })
                 .catch(err => {
-                    console.log('error in post register: ', err);
                     res.render("register", {
                         layout: "main",
                         error: err
@@ -235,6 +233,11 @@ app.post("/signature/delete", (req, res) => {
         });
 });
 
+//------------- DELETE ACCOUNT ---------------
+// app.post("/delete", (req, res) => {
+//     console.log("req.body:", req.body);
+// });
+
 //------------- THANK YOU PAGE ---------------
 app.get("/thanks", requireLoggedInUser, requireNoSignature, requireSignature, (req, res) => {
     Promise.all([
@@ -291,5 +294,9 @@ app.get("/logout", (req, res) => {
     res.redirect("/register");
 });
 
-
-app.listen(process.env.PORT || 8080, () => console.log("petition is running"));
+//if jest runs this file, then the server won't run
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () =>
+        console.log("Listening on 8080:")
+    );
+}

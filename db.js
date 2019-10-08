@@ -1,10 +1,13 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("./bcrypt");
 
-let secrets;
-process.env.DATABASE_URL ? secrets = process.env : secrets = require('./secrets');
-
-const db = spicedPg(`postgres:${secrets.dbUser}:${secrets.dbPass}@localhost:5432/petition`);
+let db;
+if (process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
+} else {
+    const {dbUser, dbPass} = require('./secrets');
+    db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
+}
 
 // SHOWS SIG
 exports.showSignature = id => {
