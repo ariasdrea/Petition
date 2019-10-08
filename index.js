@@ -294,9 +294,13 @@ app.get("/logout", (req, res) => {
     res.redirect("/register");
 });
 
-//if jest runs this file, then the server won't run
-if (require.main == module) {
-    app.listen(process.env.PORT || 8080, () =>
-        console.log("Listening on 8080:")
-    );
-}
+
+// //if jest runs this file, then the server won't run
+// if (require.main == module) {
+//     app.listen(process.env.PORT || 8080, () =>
+//         console.log("Listening on 8080:")
+//     );
+// }
+
+
+app.listen(process.env.PORT || 8080, () => console.log("petition is running"));

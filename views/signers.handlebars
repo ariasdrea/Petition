@@ -5,15 +5,15 @@
 <div id="signers-list">
     <h1 class="signer-title">List of fellow signers</h1>
     <hr>
-        {{#each signers}}
+    {{#each signers}}
         <ul id="signer-link">
             <a id="signer-link" href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> | {{ age }},
 
             <a id="signer-link" href="/signers/{{ city }}">{{ city }}</a>
         </ul>
-        {{/each}}
+    {{/each}}
 
-        <div id="signer-container">
-            <a href="/thanks"><button id="signer-button" style="font-size: 18px;"> Back to Signature</button></a>
-        </div>
+    <div id="signer-container">
+        <a href="/thanks"><button id="signer-button" style="font-size: 18px;"> Back to Signature</button></a>
+    </div>
 </div>
