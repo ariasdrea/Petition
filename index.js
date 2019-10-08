@@ -287,4 +287,4 @@ app.get("/logout", (req, res) => {
 });
 
 
-app.listen(8080, () => console.log("petition is running"));
+app.listen(process.env.PORT || 8080, () => console.log("petition is running"));
