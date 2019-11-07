@@ -5,6 +5,7 @@ const hb = require("express-handlebars");
 const db = require("./db");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const { hash, compare } = require('./bcrypt');
 const {
     requireLoggedInUser,
     requireLoggedOutUser,
@@ -17,7 +18,6 @@ app.set("view engine", "handlebars");
 app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
-
 let secrets;
 process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
 
@@ -44,7 +44,6 @@ app.use((req, res, next) => {
 });
 
 app.disable("x-powered-by");
-// --------------- SECURITY PROTECTION ---------------
 
 //------------- HOMEPAGE ---------------
 app.get("/", (req, res) => {
@@ -73,7 +72,7 @@ app.post("/register", (req, res) => {
             passErr: 'Please provide a password'
         });
     } else {
-        db.hashedPassword(req.body.pass).then(hash => {
+        hash(req.body.pass).then(hash => {
             return db
                 .createUser(req.body.first, req.body.last, req.body.email, hash)
                 .then(result => {
@@ -100,8 +99,7 @@ app.get("/login", requireLoggedOutUser, (req, res) => {
 
 app.post("/login", (req, res) => {
     db.getUser(req.body.email).then(results => {
-        return db
-            .checkPassword(req.body.pass, results.rows[0].pass)
+        return compare(req.body.pass, results.rows[0].pass)
             .then(result => {
                 if (result == true) {
                     req.session.first = results.rows[0].first;
@@ -170,7 +168,7 @@ app.post("/edit", (req, res) => {
     let url = req.body.homepage;
 
     if (req.body.password) {
-        db.hashedPassword(req.body.password)
+        hash(req.body.password)
             .then(hash => {
                 Promise.all([
                     db.updateUserWithPass(first, last, email, hash, userId),

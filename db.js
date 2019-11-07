@@ -58,16 +58,6 @@ exports.signatures = (signature, user_id) => {
     );
 };
 
-// HASHING PASSWORDS
-exports.hashedPassword = pass => {
-    return bcrypt.hash(pass);
-};
-
-// CHECK/COMPARE PASSWORDS
-exports.checkPassword = (pass, hash) => {
-    return bcrypt.compare(pass, hash);
-};
-
 // LIST OF SIGNERS
 exports.signers = () => {
     return db
