@@ -5,7 +5,7 @@ const hb = require("express-handlebars");
 const db = require("./db");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
-const { hash, compare } = require('./bcrypt');
+const { hash, compare } = require("./bcrypt");
 const {
     requireLoggedInUser,
     requireLoggedOutUser,
@@ -19,7 +19,9 @@ app.use(express.static("./public"));
 
 // --------------- SECURITY PROTECTION ---------------
 let secrets;
-process.env.NODE_ENV === 'production' ? secrets = process.env : secrets = require('./secrets');
+process.env.NODE_ENV === "production"
+    ? (secrets = process.env)
+    : (secrets = require("./secrets"));
 
 app.use(
     cookieSession({
@@ -66,10 +68,10 @@ app.get("/register", requireLoggedOutUser, (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-    if (req.body.pass == '') {
+    if (req.body.pass == "") {
         res.render("register", {
             layout: "main",
-            passErr: 'Please provide a password'
+            passErr: "Please provide a password"
         });
     } else {
         hash(req.body.pass).then(hash => {
@@ -88,7 +90,6 @@ app.post("/register", (req, res) => {
                     });
                 });
         });
-
     }
 });
 
@@ -98,32 +99,34 @@ app.get("/login", requireLoggedOutUser, (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    db.getUser(req.body.email).then(results => {
-        return compare(req.body.pass, results.rows[0].pass)
-            .then(result => {
-                if (result == true) {
-                    req.session.first = results.rows[0].first;
-                    req.session.last = results.rows[0].last;
-                    req.session.userId = results.rows[0].userid;
-                    req.session.sigId = results.rows[0].sigid;
+    db.getUser(req.body.email)
+        .then(results => {
+            return compare(req.body.pass, results.rows[0].pass)
+                .then(result => {
+                    if (result == true) {
+                        req.session.first = results.rows[0].first;
+                        req.session.last = results.rows[0].last;
+                        req.session.userId = results.rows[0].userid;
+                        req.session.sigId = results.rows[0].sigid;
 
-                    if (!req.session.sigId) {
-                        res.redirect("/petition");
+                        if (!req.session.sigId) {
+                            res.redirect("/petition");
+                        } else {
+                            res.redirect("/thanks");
+                        }
                     } else {
-                        res.redirect("/thanks");
+                        res.render("login", {
+                            error: "pass is undefined"
+                        });
                     }
-                } else {
-                    res.render("login", {
-                        error: 'pass is undefined'
-                    });
-                }
+                });
+        })
+        .catch(err => {
+            console.log("error in LOGIN POST:", err);
+            res.render("login", {
+                error: err
             });
-    }).catch(err => {
-        console.log("error in LOGIN POST:", err);
-        res.render("login", {
-            error: err
         });
-    });
 });
 
 //------------- USER PROFILE ---------------
@@ -144,7 +147,7 @@ app.post("/profile", (req, res) => {
 });
 
 // --------- EDIT PROFILE & POPULATE FIELDS ---------
-app.get("/edit", requireLoggedInUser,  (req, res) => {
+app.get("/edit", requireLoggedInUser, (req, res) => {
     const userId = req.session.userId;
     db.populateInfo(userId)
         .then(results => {
@@ -203,6 +206,7 @@ app.get("/petition", requireLoggedInUser, requireSignature, requireNoSignature, 
 });
 
 app.post("/petition", (req, res) => {
+    //passing userId to create a link b/w user and sig from the 2 tables
     db.signatures(req.body.signature, req.session.userId)
         .then(result => {
             req.session.sigId = result.rows[0].id;
@@ -274,7 +278,7 @@ app.get("/signers", requireLoggedInUser, requireSignature, (req, res) => {
 
 app.get("/signers/:city", requireLoggedInUser, requireSignature, (req, res) => {
     db.cities(req.params.city).then(result => {
-        console.log('result from db.cities: ', result);
+        // console.log("result from db.cities: ", result);
         res.render("cities", {
             layout: "main",
             citysigner: result.rows,
