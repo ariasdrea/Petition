@@ -8,7 +8,7 @@
     {{#each signers}}
         {{#if url}}
         <ul id="signer-link">
-            <a id="signer-link" href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> {{#if age}}  {{ age }} {{/if}} {{#if city}},
+            <a id="signer-link" href="{{ url }}" target="_blank">{{ first }} {{ last }}</a> {{#if age}} | {{ age }} {{/if}} {{#if city}},
             <a id="signer-link" href="/signers/{{ city }}">{{ city }}</a> {{/if}}
         </ul>
         {{else}}
