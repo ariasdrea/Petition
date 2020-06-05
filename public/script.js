@@ -1,5 +1,5 @@
 // SIGNATURE / CANVAS DRAWING
-(function canvas() {
+(function () {
     var canvas = $("#canvas");
     var c = document.querySelector("canvas").getContext("2d");
     var hidden = $("#hidden");
@@ -35,7 +35,7 @@
     canvas.on("mouseup", () => {
         // console.log("canvas[0]", canvas[0]);
         isDrawing = false; //stops drawing on mouseup
-        signatureString = canvas[0].toDataURL();
+        signatureString = canvas[0].toDataURL();        
         hidden.val(signatureString);
         // console.log("signatureString:", signatureString); // shows long string value
         //targets hidden input field and assing signaturestring to be the value
@@ -46,10 +46,10 @@
 })();
 
 // EVENT HANDLER FOR HOMEPAGE TRANSITION
-$(document).ready(() => {
+window.onload = function() {
     var info = $(".about-container");
 
     setTimeout(() => {
         info.fadeIn();
-    }, 2000);
-})();
+    }, 1000);
+};

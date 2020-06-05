@@ -249,6 +249,9 @@ app.get("/thanks", requireLoggedInUser, requireNoSignature, requireSignature, (r
     ]).then(result => {
         result = [...result[0], ...result[1], ...result[2]];
 
+        console.log('signature: ', result[1]);
+        
+
         res.render("thanks", {
             layout: "main",
             first: result[0].first,
@@ -266,6 +269,7 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", requireLoggedInUser, requireSignature, (req, res) => {
     db.signers()
         .then(result => {
+            console.log('results: ', result.rows);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
