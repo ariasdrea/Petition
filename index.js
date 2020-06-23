@@ -208,7 +208,6 @@ app.post("/petition", (req, res) => {
     //passing userId to create a link b/w user and sig from the 2 tables
     db.signatures(req.body.signature, req.session.userId)
         .then(result => {
-            console.log(result.rows);
             req.session.sigId = result.rows[0].id;
             res.redirect("/thanks");
         })
