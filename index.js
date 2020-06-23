@@ -148,12 +148,11 @@ app.post("/profile", (req, res) => {
 
 // --------- EDIT PROFILE & POPULATE FIELDS ---------
 app.get("/edit", requireLoggedInUser, (req, res) => {
-    const userId = req.session.userId;
-    db.populateInfo(userId)
+    db.populateInfo(req.session.userId)
         .then(results => {
             res.render("editprofile", {
                 layout: "main",
-                profile: results.rows[0] //sends info from db to the frontend (handlebars)
+                profile: results.rows[0]
             });
         })
         .catch(err => {
@@ -209,6 +208,7 @@ app.post("/petition", (req, res) => {
     //passing userId to create a link b/w user and sig from the 2 tables
     db.signatures(req.body.signature, req.session.userId)
         .then(result => {
+            console.log(result.rows);
             req.session.sigId = result.rows[0].id;
             res.redirect("/thanks");
         })
@@ -247,10 +247,7 @@ app.get("/thanks", requireLoggedInUser, requireNoSignature, requireSignature, (r
         db.showSignature(req.session.sigId),
         db.totalSigners()
     ]).then(result => {
-        result = [...result[0], ...result[1], ...result[2]];
-
-        console.log('signature: ', result[1]);
-        
+        result = [...result[0], ...result[1], ...result[2]];        
 
         res.render("thanks", {
             layout: "main",
@@ -269,7 +266,6 @@ app.post("/thanks", (req, res) => {
 app.get("/signers", requireLoggedInUser, requireSignature, (req, res) => {
     db.signers()
         .then(result => {
-            console.log('results: ', result.rows);
             res.render("signers", {
                 layout: "main",
                 signers: result.rows
@@ -282,15 +278,15 @@ app.get("/signers", requireLoggedInUser, requireSignature, (req, res) => {
 
 app.get("/signers/:city", requireLoggedInUser, requireSignature, (req, res) => {
     db.cities(req.params.city).then(result => {
-        // console.log("result from db.cities: ", result);
+        console.log('cities results:', result.rows);
         res.render("cities", {
             layout: "main",
             citysigner: result.rows,
             city: req.params.city
-        }).catch(err => {
-            console.log("err in db.cities:", err);
-            res.redirect("/signers");
         });
+    }).catch(err => {
+        console.log("err in db.cities:", err);
+        res.redirect("/signers");
     });
 });
 

@@ -54,7 +54,7 @@ exports.signatures = (signature, user_id) => {
         `INSERT INTO signatures (signature, user_id)
         VALUES ($1, $2)
         RETURNING *`,
-        [signature, user_id || null]
+        [signature || null, user_id || null]
     );
 };
 
@@ -76,7 +76,8 @@ exports.signers = () => {
 
 exports.cities = city => {
     return db.query(
-        `SELECT first, last, age, url FROM signatures
+        `SELECT first, last, age, url 
+        FROM signatures
         LEFT JOIN users
         ON users.id = signatures.user_id
         LEFT JOIN user_profiles
