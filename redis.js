@@ -6,13 +6,14 @@ const client = redis.createClient({
 
 const { promisify } = require("util");
 
-// there would be an error if redis is down
-client.on("error", function(err) {
+client.on("error", function (err) {
     console.log(err);
 });
 
-exports.get = promisify(client.get).bind(client);
+module.exports.set = promisify(client.set).bind(client);
 
-exports.setex = promisify(client.setex).bind(client);
+module.exports.get = promisify(client.get).bind(client);
 
-exports.del = promisify(client.del).bind(client);
+module.exports.del = promisify(client.del).bind(client);
+
+module.exports.setex = promisify(client.setex).bind(client);
