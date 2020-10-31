@@ -26,4 +26,4 @@ jobs:
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
             - run: npm install
-            # - run: npm test
+            - run: npm test
