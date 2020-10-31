@@ -23,8 +23,5 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-                  dbUser: ${{ secrets.DBUSER }}
-                  dbPass: ${{ secrets.DBPASS }}
-                  cookieSessionSecret: ${{ secrets.COOKIESESSIONSECRET}}
             - run: npm install
             - run: npm test

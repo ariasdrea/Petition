@@ -2,7 +2,7 @@ const supertest = require("supertest");
 const { app } = require("./index");
 const cookieSession = require("cookie-session");
 jest.mock("./db");
-const db = require("./db");
+// const db = require("./db");
 
 test("logged out users get redirected to Register when they go to Petition", () => {
     cookieSession.mockSessionOnce({});
