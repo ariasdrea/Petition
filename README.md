@@ -1,4 +1,5 @@
 # Petition
+![Unit Testing CI](https://github.com/ariasdrea/Petition/workflows/Unit%20Testing%20CI/badge.svg)
 
 ## Live Website
 
