@@ -1,18 +1,23 @@
 const spicedPg = require("spiced-pg");
 const bcrypt = require("./bcrypt");
 
-let db;
-if (process.env.DATABASE_URL) {
-    db = spicedPg(process.env.DATABASE_URL);
-} else {
-    const {dbUser, dbPass} = require('./secrets');
-    db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
-}
+// let db;
+// if (process.env.DATABASE_URL) {
+//     db = spicedPg(process.env.DATABASE_URL);
+// } else {
+//     const {dbUser, dbPass} = require('./secrets');
+//     db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
+// }
+
+let db = spicedPg(
+    process.env.DATABASE_URL || "postgres:dbUser:dbPass@localhost:5432/petition"
+);
 
 // SHOWS SIG
-exports.showSignature = id => {
-    return db.query(`SELECT signature FROM signatures WHERE id = $1`, [id])
-        .then(results => {
+exports.showSignature = (id) => {
+    return db
+        .query(`SELECT signature FROM signatures WHERE id = $1`, [id])
+        .then((results) => {
             return results.rows;
         });
 };
@@ -28,23 +33,26 @@ exports.createUser = (first, last, email, pass) => {
 };
 
 // GET USER BY EMAIL ADDRESS
-exports.getUser = email => {
-    return db
-        .query(
-            `SELECT first, last, users.id AS userId, signatures.id AS sigId, pass
+exports.getUser = (email) => {
+    return db.query(
+        `SELECT first, last, users.id AS userId, signatures.id AS sigId, pass
             FROM users
             LEFT JOIN signatures
             ON users.id = signatures.user_id
             WHERE email = $1`,
-            [email]
-        );
+        [email]
+    );
 };
 
-exports.getLatestInfo = id => {
-    return db.query(`
+exports.getLatestInfo = (id) => {
+    return db
+        .query(
+            `
         SELECT first FROM users
-        WHERE id = $1`, [id])
-        .then(results => {
+        WHERE id = $1`,
+            [id]
+        )
+        .then((results) => {
             return results.rows;
         });
 };
@@ -69,12 +77,12 @@ exports.signers = () => {
             LEFT JOIN user_profiles
             ON user_profiles.user_id = signatures.user_id`
         )
-        .then(signer => {
+        .then((signer) => {
             return signer;
         });
 };
 
-exports.cities = city => {
+exports.cities = (city) => {
     return db.query(
         `SELECT first, last, age, url 
         FROM signatures
@@ -98,7 +106,7 @@ exports.profile = (age, city, url, user_id) => {
 };
 
 //SHOW USER INFO IN EDIT PROFILE
-exports.populateInfo = id => {
+exports.populateInfo = (id) => {
     return db.query(
         `SELECT users.first, users.last, users.email, up.age, up.city, up.url
         FROM users
@@ -140,7 +148,7 @@ exports.updateUserWithoutPass = (user_id, first, last, email) => {
     );
 };
 
-exports.deleteSig = id => {
+exports.deleteSig = (id) => {
     return db.query(
         `
         DELETE FROM signatures
@@ -150,21 +158,25 @@ exports.deleteSig = id => {
 };
 
 exports.totalSigners = () => {
-    return db.query(
-        `SELECT COUNT(*)
+    return db
+        .query(
+            `SELECT COUNT(*)
         FROM signatures`
-    ).then(result => {
-        return result.rows;
-    });
+        )
+        .then((result) => {
+            return result.rows;
+        });
 };
 
-exports.deleteAccount = id => {
-    return db.query(`
+exports.deleteAccount = (id) => {
+    return (
+        db.query(`
         SELECT * FROM users
         INNER JOIN signatures
         ON users.id = signatures.user_id
         INNER JOIN user_profiles
         ON signatures.user_id = user_profiles.user_id
         `),
-    [id];
+        [id]
+    );
 };
