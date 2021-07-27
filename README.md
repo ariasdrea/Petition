@@ -28,6 +28,8 @@ The cause for this particular petition advocates having dogs from an adoption or
 <span><img src="https://img.shields.io/badge/Express-lightgrey?style=flat-square&logo=express"></span>
 <span><img src="https://img.shields.io/badge/Node.js-green?style=flat-square&logo=nodedotjs"></span>
 <span><img src="https://img.shields.io/badge/PostgreSQL-9cf?style=flat-square&logo=postgresql"></span>
+<span><img src="https://img.shields.io/badge/Heroku-blueviolet?style=flat-square&logo=heroku"></span>
+<span><img src="https://img.shields.io/badge/Jest-brightgreen?style=flat-square&logo=jest"></span>
 
 
 ## Preview
