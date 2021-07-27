@@ -22,9 +22,13 @@ The cause for this particular petition advocates having dogs from an adoption or
 -   On the signature page, a few research studies are quoted regarding the correlation of therapy dogs and stress relief. The user can click on each study where a new tab will open displaying the source of the quote as well as additional information.
 -   Users are able to sort list of supporters by city as well as access their provided url websites, if available, by clicking on any name.
 
-## Technology
+## Technology Stack
+<span><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhackerstribe.com%2Fwp-content%2Fuploads%2F2015%2F03%2Fmustache-js.png&f=1&nofb=1" width="70" height="20"></span>
+<span><img src="https://img.shields.io/badge/jQuery-blue?style=flat-square&logo=jquery"></span>
+<span><img src="https://img.shields.io/badge/Express-lightgrey?style=flat-square&logo=express"></span>
+<span><img src="https://img.shields.io/badge/Node.js-green?style=flat-square&logo=nodedotjs"></span>
+<span><img src="https://img.shields.io/badge/PostgreSQL-9cf?style=flat-square&logo=postgresql"></span>
 
--   jQuery, Handlebars, Node.js, Express.js & PostgreSQL
 
 ## Preview
 
