@@ -24,6 +24,7 @@ The cause for this particular petition advocates having dogs from an adoption or
 
 ## Technology Stack
 <span><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fhackerstribe.com%2Fwp-content%2Fuploads%2F2015%2F03%2Fmustache-js.png&f=1&nofb=1" width="70" height="20"></span>
+<span><img src="https://img.shields.io/badge/JavaScript-blue?style=flat-square&logo=javascript&logoColor=white"></span>
 <span><img src="https://img.shields.io/badge/jQuery-blue?style=flat-square&logo=jquery"></span>
 <span><img src="https://img.shields.io/badge/Express-lightgrey?style=flat-square&logo=express"></span>
 <span><img src="https://img.shields.io/badge/Node.js-green?style=flat-square&logo=nodedotjs"></span>
